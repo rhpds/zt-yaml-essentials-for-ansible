@@ -1,16 +1,25 @@
 ---
 # Project Zero instance definitions.
 # See https://github.com/rhpds/lab_zero_touch_template for reference.
+---
 containers: []
 virtualmachines:
   - name: "host1"
     image: "rhel-9.5"
-    memory: "4G"
-    cores: 2
-    image_size: "20G"
+    memory: "8G"
+    cores: 1
+    image_size: "40G"
     tags:
       - key: "AnsibleGroup"
-        value: isolated
+        value: "isolated"
     networks:
       - default
       - secondary
+    userdata: |-
+      #cloud-config
+      user: rhel
+      password: ansible123!
+      chpasswd: { expire: False }
+      runcmd:
+        - sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config
+        - systemctl reload sshd
