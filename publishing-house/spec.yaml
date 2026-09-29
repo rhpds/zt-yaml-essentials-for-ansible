@@ -24,15 +24,19 @@ spec:
   - id: module-01
     title: Why YAML? Introduction and advantages
     duration_min: 8
+    status: not_started
   - id: module-02
     title: YAML syntax basics - files, indentation, case sensitivity
     duration_min: 12
+    status: not_started
   - id: module-03
     title: YAML data types - dictionaries, lists, scalars, comments
     duration_min: 12
+    status: not_started
   - id: module-04
     title: Hands-on practice - write and fix YAML files
     duration_min: 13
+    status: not_started
   environment:
     platform: ''
     topology: ''
@@ -85,8 +89,24 @@ approval_checklist:
       All existing catalog items teach YAML within the broader context of Ansible
       automation and playbook development, where YAML is learned as a byproduct. This
       lab teaches YAML as the primary subject, using Ansible as context.
-    design_overview: ''
-    module_summaries: []
+    design_overview: This lab teaches YAML fundamentals as a standalone subject for
+      learners who need YAML literacy before diving into Ansible automation. Targeting
+      beginners with zero prerequisites, it focuses on YAML syntax, structure, data
+      types, and troubleshooting common errors using a hands-on VS Code environment
+      with Ansible Automation Platform pre-configured.
+    module_summaries:
+    - title: Why YAML? Introduction and advantages
+      overview: Introduces what YAML is, explains why Ansible uses it, and covers
+        the advantages YAML offers over other data formats.
+    - title: YAML syntax basics - files, indentation, case sensitivity
+      overview: Teaches fundamental syntax rules including file structure, indentation
+        requirements, and how case sensitivity affects YAML parsing.
+    - title: YAML data types - dictionaries, lists, scalars, comments
+      overview: Covers core YAML data structures (scalars, lists, dictionaries) and
+        comments, showing how to combine them to represent Ansible playbook structures.
+    - title: Hands-on practice - write and fix YAML files
+      overview: Provides hands-on practice creating valid YAML files from scratch,
+        troubleshooting broken YAML examples, and validating work using VS Code feedback.
     rcars_overlap_pct: 67
     rcars_top_matches:
     - title: Writing your first playbook
