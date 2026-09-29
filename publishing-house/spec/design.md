@@ -67,16 +67,15 @@ The automation must provision:
 
 ## Infrastructure Requirements
 
-- **Cloud provider:** TBD — confirmed in infrastructure phase
-- **Cluster type:** TBD — confirmed in infrastructure phase
-- **OCP version:** TBD — confirmed in infrastructure phase
-- **Topology:** TBD — confirmed in infrastructure phase
-- **Sizing:** TBD — confirmed in infrastructure phase
-- **Automation approach:** TBD — confirmed in infrastructure phase
-- **AI/MaaS:** TBD — confirmed in infrastructure phase
-- **External services:** TBD — confirmed in infrastructure phase
-- **AAP version:** TBD — confirmed in infrastructure phase
-- **Non-GA products:** TBD — confirmed in infrastructure phase
+- **Cloud provider:** CNV (OpenShift Virtualization)
+- **Platform:** RHEL VMs (provisioned via CNV)
+- **Per-student VMs:** 1 control node (RHEL 9.5, 2 vCPU, 4GB RAM, 20GB disk) with VS Code and ansible-navigator pre-installed
+- **Topology:** Per-student (each learner gets their own VM)
+- **Automation approach:** Ansible (setup scripts to configure VS Code, sample YAML files, and ansible-navigator environment)
+- **AI/MaaS:** None
+- **External services:** `quay.io` (for ansible-navigator execution environment images), `cdn.redhat.com` (for RHEL registration and packages)
+- **AAP version:** Not applicable (using ansible-navigator CLI instead of AAP controller)
+- **Non-GA products:** None (all products are GA)
 
 ## Assessment Strategy
 

@@ -38,8 +38,8 @@ spec:
     duration_min: 13
     status: not_started
   environment:
-    platform: ''
-    topology: ''
+    platform: rhel-vms
+    topology: per-student
     cloud_provider: cnv
     max_concurrent_users: null
     ocp_version: ''
@@ -51,15 +51,23 @@ spec:
     worker_cpu: null
     worker_ram_gb: null
     worker_disk_gb: null
-    vms_per_student: []
+    vms_per_student:
+    - role: control-node
+      count: 1
+      cpu: 2
+      ram_gb: 4
+      disk_gb: 20
+      os: rhel-9.5
     aap_version: ''
-    ai_requirement: ''
+    ai_requirement: none
     ai_model_tier: ''
     ai_model_name: ''
     ai_justification: ''
     non_ga_products: []
     non_ga_access_plan: ''
-    external_services: []
+    external_services:
+    - quay.io
+    - cdn.redhat.com
     gpu_nodes: 0
     gpu_type: ''
   duration_hours: 0.75
