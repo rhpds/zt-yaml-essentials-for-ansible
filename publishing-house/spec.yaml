@@ -17,7 +17,7 @@ project:
   description: "This lab teaches you the basics of YAML, a simple yet powerful data serialization language. It includes practical examples of how YAML is used within Ansible. No prior knowledge of YAML or Ansible is required. By the end of this lab, you will have a foundation in YAML and an understanding of how it applies to Ansible."
   # content_reviewer_email and infra_reviewer_email are assigned by the RHDP team — not set by the author
   jira_ticket: ""
-  workflow_id: ""
+  workflow_id: "54218878-abdc-4f6c-9c6f-8343fe3b0276"
 
 spec:
   title: ""
