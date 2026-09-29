@@ -78,11 +78,45 @@ approval_checklist:
   content:
     prerequisites_verifiable: false
     assessment_strategy: ''
-    catalog_gap: ''
+    catalog_gap: This lab is differentiated as a focused, standalone introduction
+      to YAML fundamentals — teaching different parts of YAML syntax (indentation,
+      case sensitivity, dictionaries, lists, scalars, comments) and troubleshooting
+      common syntax errors — before learners dive into Ansible automation concepts.
+      All existing catalog items teach YAML within the broader context of Ansible
+      automation and playbook development, where YAML is learned as a byproduct. This
+      lab teaches YAML as the primary subject, using Ansible as context.
     design_overview: ''
     module_summaries: []
-    rcars_overlap_pct: null
-    rcars_top_matches: []
+    rcars_overlap_pct: 67
+    rcars_top_matches:
+    - title: Writing your first playbook
+      ci_name: zt-ansiblebu.zt-ans-bu-writing-playbook.prod
+      url: https://catalog.demo.redhat.com/catalog?item=zt-ansiblebu.zt-ans-bu-writing-playbook.prod
+      relevance_score: 67
+      why_it_fits: This beginner workshop covers YAML playbook syntax and indentation
+        rules as foundational content while teaching Ansible automation concepts,
+        making it relevant for learners who need to understand YAML in the context
+        of Red Hat Ansible Automation Platform. The hands-on progression from inventory
+        creation through playbooks naturally exposes learners to YAML dictionaries,
+        lists, and scalars in practical use.
+    - title: Ansible Workshop - Ansible for Red Hat Enterprise Linux
+      ci_name: zt-ansiblebu.zt-ans-bu-rhel.prod
+      url: https://catalog.demo.redhat.com/catalog?item=zt-ansiblebu.zt-ans-bu-rhel.prod
+      relevance_score: 62
+      why_it_fits: This beginner-level workshop covers YAML syntax and Ansible playbook
+        fundamentals as core topics, directly addressing the request's goals of writing
+        valid YAML files, dictionaries, lists, and scalars within an Ansible Automation
+        Platform context. Learners also get exposure to debugging and error handling,
+        which maps to the troubleshooting YAML syntax errors requirement.
+    - title: Ansible Workshop - Ansible for Red Hat Enterprise Linux (90 mins)
+      ci_name: zt-ansiblebu.zt-ans-bu-rhel-90.prod
+      url: https://catalog.demo.redhat.com/catalog?item=zt-ansiblebu.zt-ans-bu-rhel-90.prod
+      relevance_score: 55
+      why_it_fits: This beginner workshop covers YAML syntax and Ansible playbook
+        authoring hands-on, giving learners practical exposure to writing YAML structures
+        (dictionaries, lists, scalars) in the context of real Ansible tasks. It directly
+        addresses the core topics requested while grounding them in a meaningful automation
+        use case.
     rejections: []
   infra:
     peak_environments: null
