@@ -1,0 +1,12 @@
+site_name: YAML Essentials for Ansible
+docs_dir: publishing-house/spec
+nav:
+- Home: index.md
+- Design Spec: design.md
+- Modules:
+  - Module 1 - Why Yaml: modules/module-01-why-yaml.md
+  - Module 2 - Syntax Basics: modules/module-02-syntax-basics.md
+  - Module 3 - Data Types: modules/module-03-data-types.md
+  - Module 4 - Hands On Practice: modules/module-04-hands-on-practice.md
+plugins:
+- techdocs-core

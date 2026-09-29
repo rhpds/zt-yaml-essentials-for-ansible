@@ -89,7 +89,10 @@ tracking:
 approval_checklist:
   content:
     prerequisites_verifiable: false
-    assessment_strategy: ''
+    assessment_strategy: Trust-based for Modules 1-3 (reading/understanding). Module
+      4 uses visible result verification where learners see immediate feedback when
+      YAML is valid or invalid in the VS Code editor, and optionally can run a simple
+      playbook to confirm correctness.
     catalog_gap: This lab is differentiated as a focused, standalone introduction
       to YAML fundamentals — teaching different parts of YAML syntax (indentation,
       case sensitivity, dictionaries, lists, scalars, comments) and troubleshooting
