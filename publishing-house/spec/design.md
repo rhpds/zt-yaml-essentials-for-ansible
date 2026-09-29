@@ -1,4 +1,4 @@
-# [Project Title]
+# YAML Essentials for Ansible
 
 <!-- This file is the design document for your lab or demo. -->
 <!-- Fill in each section below, or run /rhdp-publishing-house to have the intake skill help. -->
@@ -7,83 +7,84 @@
 
 ## Overview
 
-[2-3 sentences on what this lab or demo is and why it exists. Then a direct description of what participants will do — specific enough that someone reading this section immediately understands the content without interpretation. No flowery language. Example: "Participants will deploy a 3-tier application on OpenShift, configure autoscaling, and troubleshoot a simulated pod failure."]
+This lab teaches the basics of YAML, a simple yet powerful data serialization language, with practical examples of how YAML is used within Ansible. YAML is the foundation of Ansible playbooks, and understanding its syntax is essential for anyone working with Ansible Automation Platform. Participants will write YAML files following proper syntax and indentation rules, work with YAML data structures (dictionaries, lists, and scalars), and troubleshoot common YAML syntax errors in an interactive VS Code environment.
 
 ## Target Audience
 
-- **Role:** [Data scientists, platform engineers, developers, etc.]
-- **Experience level:** [Beginner, intermediate, or advanced]
-- **What they already know:** [Existing skills and knowledge]
-- **What they don't know:** [Skills this lab teaches]
+- **Role:** Developers, system administrators, DevOps engineers, or anyone new to Ansible Automation Platform
+- **Experience level:** Beginner
+- **What they already know:** No prior knowledge of YAML or Ansible is required. Basic familiarity with text editors is helpful but not mandatory.
+- **What they don't know:** YAML syntax, structure, and how YAML is used in Ansible playbooks
 
 ## Prerequisites
 
-- [What the learner must know or have completed before starting]
-- [Can the lab validate these automatically? Yes/No — brief explanation]
+None. This lab is designed for learners with no prior YAML or Ansible experience.
 
-<!-- If no prerequisites, write "None" -->
+- **Can the lab validate these automatically?** No — zero prerequisites means no validation is needed.
 
 ## Learning Objectives
 
-1. [Action verb] [specific, measurable outcome]
-2. [Action verb] [specific, measurable outcome]
-3. [Action verb] [specific, measurable outcome]
-
-<!-- Scale to duration: up to 3 objectives per 45 min of content. Start with action verbs: Configure, Deploy, Create, Implement, Troubleshoot, Monitor, Scale. Each should be testable. NOT: Understand, Learn, Know. -->
+1. Create valid YAML files following proper syntax and indentation rules
+2. Write YAML dictionaries, lists, and scalars in Ansible playbooks
+3. Troubleshoot YAML syntax errors in Ansible configurations
 
 ## Content Type
 
-[Lab (hands-on) or Demo (presenter-led)]
+Lab (hands-on)
 
 ## Products & Technologies
 
-- [Official Red Hat product name with version if relevant]
-- [Additional products/technologies]
-
-<!-- Use official names: "Red Hat OpenShift", not "OpenShift". List upstream projects separately. -->
+- Red Hat Ansible Automation Platform
 
 ## Module Map
 
 | Module | Title | Duration |
 |--------|-------|----------|
-| 1 | [Module title] | [XX min] |
-| 2 | [Module title] | [XX min] |
-| — | **Total hands-on** | **[X hours]** |
-| — | Intro / presentation | [~XX min] |
-| — | **Total lab** | **[~X hours]** |
-
-<!-- Each module 10-30 min. Total: lab 1-4 hours, demo 15-45 min. Modules should build on each other. -->
+| 1 | Why YAML? Introduction and advantages | 8 min |
+| 2 | YAML syntax basics - files, indentation, case sensitivity | 12 min |
+| 3 | YAML data types - dictionaries, lists, scalars, comments | 12 min |
+| 4 | Hands-on practice - write and fix YAML files | 13 min |
+| — | **Total hands-on** | **45 min** |
+| — | Intro / presentation | ~5 min |
+| — | **Total lab** | **~50 min** |
 
 ## Difficulty Level
 
-[Beginner, Intermediate, or Advanced]
+Beginner
 
 ## Environment
 
-**Learner view:** [What exists when the lab starts — pre-deployed resources, what participants see and interact with. Be specific about cluster details.]
+**Learner view:** When the lab starts, participants see VS Code (or a similar code editor) in their browser with a pre-configured OpenShift cluster running in the background. Ansible Automation Platform is already installed and ready to use. The focus is on the editor — participants will write and edit YAML files directly in VS Code.
 
-**Automation needed:** [Yes/No]
+**Automation needed:** Yes
 
-[If yes, list what automation must provision — operators, per-user resources, sample apps, data sets.]
+The automation must provision:
+- A working OpenShift cluster (accessible but not the primary focus)
+- Red Hat Ansible Automation Platform installed and configured
+- VS Code or a web-based editor (such as VS Code in the browser via code-server) with YAML syntax highlighting enabled
+- Sample Ansible playbook files for participants to edit and experiment with
+- A simple Ansible inventory and configuration so learners can optionally run a playbook (if time permits)
 
 ## Infrastructure Requirements
 
-- **Cloud provider:** [CNV (default), AWS, or Troshka (bare-metal/nested virt)]
-- **Cluster type:** [Multinode or SNO (Single Node OpenShift)]
-- **OCP version:** [e.g. 4.20 — minimum 4.20]
-- **Topology:** [Shared cluster, per-student, or CNV pool]
-- **Sizing:** [Node types and counts with resources — e.g., "3 control plane (16 CPU, 64GB RAM), 6 workers (8 CPU, 32GB RAM, 100GB disk)"]
-- **Automation approach:** [Ansible, GitOps (Helm + ArgoCD), or combo]
-- **AI/MaaS:** [None, MaaS (open-source model), MaaS (frontier model), or dedicated GPU — include justification if not "none"]
-- **External services:** [Named services — e.g., github.com, registry.access.redhat.com — or "None"]
-- **AAP version:** [e.g. 2.5 — only if AAP is in products; omit otherwise]
-- **Non-GA products:** [Product name + version, with access plan — or "None (all products are GA)"]
+- **Cloud provider:** TBD — confirmed in infrastructure phase
+- **Cluster type:** TBD — confirmed in infrastructure phase
+- **OCP version:** TBD — confirmed in infrastructure phase
+- **Topology:** TBD — confirmed in infrastructure phase
+- **Sizing:** TBD — confirmed in infrastructure phase
+- **Automation approach:** TBD — confirmed in infrastructure phase
+- **AI/MaaS:** TBD — confirmed in infrastructure phase
+- **External services:** TBD — confirmed in infrastructure phase
+- **AAP version:** TBD — confirmed in infrastructure phase
+- **Non-GA products:** TBD — confirmed in infrastructure phase
 
-<!-- Not all fields must be known at intake. "TBD, estimating ~X" is fine. -->
+## Assessment Strategy
 
-## Assessment Strategy (Optional)
+This lab uses a combination of hands-on verification and trust-based assessment:
 
-<!-- Optional — skip this section for demos or classic labs without verification. -->
-<!-- Relevant for Zero-Touch labs with solve/validate buttons or labs with automated checks. -->
+- **Module 1:** Trust-based — learners read about YAML advantages
+- **Module 2:** Trust-based — learners understand YAML syntax rules
+- **Module 3:** Trust-based — learners understand YAML data types
+- **Module 4:** Visible result verification — learners write YAML files and fix syntax errors. Success is visible when their YAML parses correctly (no syntax errors shown in the editor) and, optionally, when they successfully run a simple Ansible playbook.
 
-[If applicable: how will we know the learner successfully completed each module? Per module: verification script, solve/validate button, visible result in the UI, or automated check.]
+Zero-touch automation (solve/validate buttons) could be added for Module 4 to automatically check YAML validity, but the initial design relies on learners seeing immediate feedback in the editor (syntax highlighting, error messages).
