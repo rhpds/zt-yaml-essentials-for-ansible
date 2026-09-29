@@ -1,7 +1,6 @@
 ---
 # Project Zero instance definitions.
 # See https://github.com/rhpds/lab_zero_touch_template for reference.
----
 containers: []
 virtualmachines:
   - name: "host1"
