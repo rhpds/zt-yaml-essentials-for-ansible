@@ -1,0 +1,37 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: zt-yaml-essentials-for-ansible
+  title: zt-yaml-essentials-for-ansible
+  description: This lab teaches you the basics of YAML, a simple yet powerful data
+    serialization language. It includes practical examples of how YAML is used
+    within Ansible. No prior knowledge of YAML or Ansible is required. By the
+    end of this lab, you will have a foundation in YAML and an understanding of
+    how it applies to Ansible.
+  annotations:
+    ph.rhdp.io/content-type: lab
+    ph.rhdp.io/deployment-mode: self_published
+    ph.rhdp.io/github-user: mrudisill26
+    ph.rhdp.io/owner: mrudisil@redhat.com
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: rhpds/zt-yaml-essentials-for-ansible
+    ph.rhdp.io/created-at: 2026-09-29T15:20:02.662Z
+  tags:
+    - publishing-house
+    - lab
+    - self-published
+  links:
+    - url: https://github.com/rhpds/zt-yaml-essentials-for-ansible
+      title: Repository
+      icon: github
+    - url: https://devspaces.apps.ocpv-infra02.wdc07.infra.demo.redhat.com#https://github.com/rhpds/zt-yaml-essentials-for-ansible
+      title: Open in DevSpaces
+      icon: catalog
+    - url: https://central-api-publishing-house.apps.ocpv-infra02.wdc07.infra.demo.redhat.com
+      title: Central
+      icon: dashboard
+spec:
+  type: content
+  lifecycle: experimental
+  owner: rhdp-team
+  system: publishing-house
