@@ -4,7 +4,7 @@
 containers: []
 virtualmachines:
   - name: host1
-    image: rhel-9.5
+    image: devtools-ansible
     memory: 8G
     cores: 2
     image_size: 40Gi

@@ -20,9 +20,12 @@ CODE_SERVER_PASSWORD="ansible123!"
 
 echo "=== Starting YAML Essentials Lab Setup on host1 ==="
 
-# Install yamllint
-echo "Installing yamllint..."
-dnf install -y yamllint
+# Check if yamllint is available
+echo "Checking yamllint..."
+if ! command -v yamllint >/dev/null 2>&1; then
+  echo "WARNING: yamllint not found, attempting to install..."
+  dnf install -y yamllint || echo "Could not install yamllint - will skip"
+fi
 
 # Create yamllint config with beginner-friendly rules
 echo "Creating yamllint config..."
@@ -101,15 +104,24 @@ EOF
 # Set ownership on all created files
 chown -R "${LAB_USER}:${LAB_USER}" "${LAB_HOME}"/{syntax-practice.yml,data-types-practice.yml,practice.yaml,broken.yml,apache-playbook.yml,inventory}
 
-# Install code-server
-echo "Installing code-server..."
+# Check if code-server is available (should be pre-installed in devtools-ansible image)
+echo "Checking code-server..."
 if ! command -v code-server >/dev/null 2>&1; then
+  echo "ERROR: code-server not found, but devtools-ansible image should have it pre-installed!"
+  echo "Attempting manual installation as fallback..."
+
   CODE_SERVER_RPM="/var/tmp/code-server-${CODE_SERVER_VERSION}-${CODE_SERVER_ARCH}.rpm"
   CODE_SERVER_URL="https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server-${CODE_SERVER_VERSION}-${CODE_SERVER_ARCH}.rpm"
 
-  curl --fail --location --retry 3 --output "${CODE_SERVER_RPM}" "${CODE_SERVER_URL}"
-  rpm -Uvh "${CODE_SERVER_RPM}"
-  rm -f "${CODE_SERVER_RPM}"
+  if curl --fail --location --retry 3 --output "${CODE_SERVER_RPM}" "${CODE_SERVER_URL}"; then
+    rpm -Uvh "${CODE_SERVER_RPM}" || echo "RPM install failed"
+    rm -f "${CODE_SERVER_RPM}"
+  else
+    echo "FATAL: Could not download or install code-server"
+    exit 1
+  fi
+else
+  echo "code-server found at $(which code-server)"
 fi
 
 # Configure code-server
