@@ -1,25 +1,12 @@
 ---
 - name: Set up YAML Essentials for Ansible lab environment
   hosts: localhost
-  gather_facts: true
+  gather_facts: false
+  connection: local
   vars:
-    workspace_dir: "{{ lookup('env', 'HOME') | default('/workspace', true) }}"
+    workspace_dir: "{{ lookup('env', 'HOME') }}"
 
   tasks:
-    - name: Install yamllint
-      ansible.builtin.package:
-        name: yamllint
-        state: present
-      become: true
-      ignore_errors: true
-
-    - name: Install ansible-navigator (if not already present)
-      ansible.builtin.package:
-        name: ansible-navigator
-        state: present
-      become: true
-      ignore_errors: true
-
     - name: Create yamllint config with beginner-friendly rules
       ansible.builtin.copy:
         dest: "{{ workspace_dir }}/.yamllint"
@@ -113,6 +100,7 @@
       ansible.builtin.debug:
         msg: |
           YAML Essentials lab environment ready!
-          - yamllint installed and configured
-          - Practice YAML files created in {{ workspace_dir }}
+          - yamllint config created in {{ workspace_dir }}
+          - Practice YAML files created
           - Ready to start Module 01
+          Note: yamllint is pre-installed in the lab container image
