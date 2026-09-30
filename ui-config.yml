@@ -5,10 +5,18 @@ antora:
   modules:
     - name: index
       label: "Introduction"
-    - name: module-01
-      label: "Module 1: Your First Lab Page"
-    - name: module-02
-      label: "Module 2: Another Module"
+    - name: module-01-why-yaml
+      label: "Module 1: Why YAML? Introduction and advantages"
+    - name: module-02-syntax-basics
+      label: "Module 2: YAML syntax basics"
+    - name: module-03-data-types
+      label: "Module 3: YAML data types"
+    - name: module-04-write-validate-yamllint
+      label: "Module 4: Write and validate YAML with yamllint"
+    - name: module-05-fix-broken-yaml
+      label: "Module 5: Fix broken YAML using yamllint feedback"
+    - name: module-06-validate-run-playbooks
+      label: "Module 6: Validate and run Ansible playbooks"
 
 tabs:
   - name: ">_ terminal"

@@ -1,0 +1,13 @@
+---
+lab:
+  name: "YAML Essentials for Ansible"
+  shortname: "yaml-essentials"
+  maintainer: "mrudisill26"
+  description: |
+    This learning path teaches you the basics of YAML, a simple yet powerful
+    data serialization language essential for Red Hat Ansible Automation Platform.
+    It includes practical examples of how YAML is used to write Ansible configurations,
+    tasks, and Playbooks.
+  git_ref:
+    production: main
+    development: main
