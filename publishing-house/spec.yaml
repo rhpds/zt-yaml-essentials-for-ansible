@@ -47,7 +47,7 @@ spec:
   - id: module-06
     title: Validate and run Ansible playbooks
     duration_min: 10
-    status: not_started
+    status: in_progress
   environment:
     platform: rhel-vms
     topology: per-student
