@@ -1,7 +1,7 @@
 ---
 - name: Set up YAML Essentials for Ansible lab environment
   hosts: localhost
-  become: true
+  gather_facts: true
   vars:
     student_user: "{{ lookup('env', 'USER') | default('devspaces', true) }}"
     student_home: "/home/{{ student_user }}"
@@ -11,11 +11,14 @@
       ansible.builtin.package:
         name: yamllint
         state: present
+      become: true
+      ignore_errors: true
 
     - name: Install ansible-navigator (if not already present)
       ansible.builtin.package:
         name: ansible-navigator
         state: present
+      become: true
       ignore_errors: true
 
     - name: Create yamllint config with beginner-friendly rules
