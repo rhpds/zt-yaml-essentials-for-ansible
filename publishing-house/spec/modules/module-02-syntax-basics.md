@@ -21,9 +21,10 @@ This module teaches the fundamental syntax rules that govern all YAML files. Par
 
 | Section | Title | Duration |
 |---------|-------|----------|
-| 1       | YAML file structure and document markers | 4 min |
-| 2       | Indentation rules and whitespace | 5 min |
-| 3       | Case sensitivity in YAML | 3 min |
+| 1       | YAML file structure and document markers | 3 min |
+| 2       | Indentation rules and the whitespace trap | 4 min |
+| 3       | Case sensitivity and comments | 2 min |
+| 4       | Hands-on: Write your first valid YAML file | 3 min |
 
 ### Detailed Steps
 
@@ -45,6 +46,14 @@ This module teaches the fundamental syntax rules that govern all YAML files. Par
 10. Observe examples demonstrating how case mismatches cause Ansible to fail or produce unexpected results
 11. Learn about comments: lines starting with `#` extend to end of line and are ignored by parsers
 12. Review a summary checklist of YAML syntax rules: spaces only (tabs forbidden), consistent indentation creates structure, match case exactly, use `#` for comments
+13. **Hands-on practice:** Open VS Code and the file `syntax-practice.yml`
+14. Write a simple valid YAML file with proper structure:
+    - Add document start marker `---`
+    - Create 2-3 key-value pairs with simple string values
+    - Use proper indentation (2 spaces)
+    - Add a comment explaining what the file contains
+15. Save the file and observe VS Code syntax highlighting confirms valid YAML (no red squiggly lines)
+16. Verify the file follows all syntax rules learned in this module
 
 ### Key Takeaways
 
@@ -56,4 +65,4 @@ This module teaches the fundamental syntax rules that govern all YAML files. Par
 
 ### Infrastructure Notes
 
-VS Code should have YAML syntax highlighting enabled. Sample YAML files may be provided in the editor to illustrate correct and incorrect syntax, but no execution or validation is required in this module (trust-based assessment).
+VS Code must have YAML syntax highlighting enabled. Sample file `syntax-practice.yml` should be pre-created as an empty file or minimal stub for learners to write in. This module uses visible result verification (VS Code highlighting shows valid/invalid YAML) for the hands-on section.

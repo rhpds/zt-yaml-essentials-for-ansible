@@ -23,10 +23,11 @@ This module introduces the core data structures used in YAML: scalars (simple va
 
 | Section | Title | Duration |
 |---------|-------|----------|
-| 1       | Scalars: strings, numbers, and booleans | 3 min |
-| 2       | Lists: block and flow styles | 3 min |
-| 3       | Dictionaries: key-value pairs and nesting | 3 min |
-| 4       | Multi-line strings and combining data types | 3 min |
+| 1       | Scalars: strings, numbers, and booleans | 2 min |
+| 2       | Lists: block and flow styles | 2 min |
+| 3       | Dictionaries: key-value pairs and nesting | 2 min |
+| 4       | Multi-line strings | 2 min |
+| 5       | Hands-on: Write YAML data types | 4 min |
 
 ### Detailed Steps
 
@@ -47,6 +48,15 @@ This module introduces the core data structures used in YAML: scalars (simple va
 13. View examples using block operators in Ansible tasks (shell commands, template content)
 14. Review examples showing combinations of data types: a list of dictionaries, dictionaries containing lists, and nested structures common in Ansible playbooks
 15. Study a sample Ansible playbook snippet that combines scalars, lists, dictionaries, multi-line strings, and comments
+16. **Hands-on practice:** Open the file `data-types-practice.yml` in VS Code
+17. Write YAML demonstrating each data type learned:
+    - Create a scalar (string value for a key like `name` or `description`)
+    - Write a list using block style (dashes, one item per line) with at least 3 items
+    - Write a dictionary with nested key-value pairs (2 levels deep)
+    - Add a multi-line string using pipe (`|`) operator showing multiple lines preserved
+    - Combine data types: create a dictionary that contains both a scalar value and a list
+18. Verify proper indentation and syntax using VS Code highlighting
+19. Compare your work to the example snippet shown earlier in the module
 
 ### Key Takeaways
 
@@ -61,4 +71,4 @@ This module introduces the core data structures used in YAML: scalars (simple va
 
 ### Infrastructure Notes
 
-VS Code should have YAML syntax highlighting enabled to help learners visually distinguish data types. Sample Ansible playbook files should be pre-loaded in the editor for reference. No execution or validation is required in this module (trust-based assessment).
+VS Code must have YAML syntax highlighting enabled to help learners visually distinguish data types. Sample Ansible playbook files should be pre-loaded in the editor for reference. File `data-types-practice.yml` should be pre-created as an empty file or minimal stub for learners to practice writing data structures. This module uses visible result verification (VS Code highlighting confirms valid YAML syntax) for the hands-on section.
