@@ -6,12 +6,6 @@
     workspace_dir: "{{ lookup('env', 'HOME') | default('/workspace', true) }}"
 
   tasks:
-    - name: Ensure workspace directory exists
-      ansible.builtin.file:
-        path: "{{ workspace_dir }}"
-        state: directory
-        mode: '0755'
-
     - name: Install yamllint
       ansible.builtin.package:
         name: yamllint
