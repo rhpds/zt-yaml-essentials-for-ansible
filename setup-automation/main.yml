@@ -1,6 +1,6 @@
 ---
 - name: Set up YAML Essentials for Ansible lab environment
-  hosts: all
+  hosts: host1
   gather_facts: true
   become: true
   vars:
