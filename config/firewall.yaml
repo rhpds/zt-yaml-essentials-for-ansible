@@ -1,7 +1,17 @@
 ---
 # Project Zero firewall rules.
 # By default egress traffic is not allowed; define allowed ports below.
+# By default egress traffic is not allowed, define below the ports allowed.
 egress:
   - ports:
       - protocol: TCP
         port: 443
+      - protocol: TCP
+        port: 22
+
+ingress:
+  - ports:
+      - protocol: TCP
+        port: 8080
+      - protocol: TCP
+        port: 22
