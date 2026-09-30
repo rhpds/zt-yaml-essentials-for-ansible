@@ -21,12 +21,6 @@
       failed_when: false
       changed_when: false
 
-    - name: Check if wetty is installed
-      ansible.builtin.command: which wetty
-      register: wetty_check
-      failed_when: false
-      changed_when: false
-
     - name: Check if port 8080 is listening (code-server)
       ansible.builtin.wait_for:
         port: 8080
@@ -35,13 +29,16 @@
       register: port_8080
       failed_when: false
 
-    - name: Check if port 3000 is listening (wetty)
-      ansible.builtin.wait_for:
-        port: 3000
-        host: 0.0.0.0
-        timeout: 5
-      register: port_3000
-      failed_when: false
+    - name: Check if practice files exist
+      ansible.builtin.stat:
+        path: "/home/rhel/{{ item }}"
+      register: practice_files
+      loop:
+        - syntax-practice.yml
+        - data-types-practice.yml
+        - practice.yaml
+        - broken.yml
+        - apache-playbook.yml
 
     - name: Fail if setup has not completed
       ansible.builtin.fail:
@@ -49,15 +46,11 @@
           Lab setup incomplete. Missing components:
           {% if yamllint_check.rc != 0 %}- yamllint not installed{% endif %}
           {% if codeserver_check.rc != 0 %}- code-server not installed{% endif %}
-          {% if wetty_check.rc != 0 %}- wetty not installed{% endif %}
           {% if port_8080 is failed %}- code-server not listening on port 8080{% endif %}
-          {% if port_3000 is failed %}- wetty not listening on port 3000{% endif %}
       when: >
         yamllint_check.rc != 0 or
         codeserver_check.rc != 0 or
-        wetty_check.rc != 0 or
-        port_8080 is failed or
-        port_3000 is failed
+        port_8080 is failed
 
     - name: Display success message
       ansible.builtin.debug:

@@ -6,6 +6,9 @@
   vars:
     student_user: "rhel"
     student_home: "/home/rhel"
+    code_server_version: "4.96.2"
+    code_server_arch: "amd64"
+    code_server_password: "ansible123!"
 
   tasks:
     - name: Install yamllint
@@ -116,17 +119,36 @@
         owner: "{{ student_user }}"
         group: "{{ student_user }}"
 
-    - name: Install code-server (VS Code in browser)
-      ansible.builtin.shell: |
-        curl -fsSL https://code-server.dev/install.sh | sh
-      args:
-        creates: /usr/bin/code-server
+    - name: Check if code-server is already installed
+      ansible.builtin.command: which code-server
+      register: code_server_check
+      failed_when: false
+      changed_when: false
+
+    - name: Download code-server RPM
+      ansible.builtin.get_url:
+        url: "https://github.com/coder/code-server/releases/download/v{{ code_server_version }}/code-server-{{ code_server_version }}-{{ code_server_arch }}.rpm"
+        dest: "/var/tmp/code-server-{{ code_server_version }}-{{ code_server_arch }}.rpm"
+        mode: '0644'
+      when: code_server_check.rc != 0
+
+    - name: Install code-server from RPM
+      ansible.builtin.yum:
+        name: "/var/tmp/code-server-{{ code_server_version }}-{{ code_server_arch }}.rpm"
+        state: present
+        disable_gpg_check: true
+      when: code_server_check.rc != 0
+
+    - name: Clean up code-server RPM
+      ansible.builtin.file:
+        path: "/var/tmp/code-server-{{ code_server_version }}-{{ code_server_arch }}.rpm"
+        state: absent
 
     - name: Create code-server config directory
       ansible.builtin.file:
         path: "{{ student_home }}/.config/code-server"
         state: directory
-        mode: '0755'
+        mode: '0700'
         owner: "{{ student_user }}"
         group: "{{ student_user }}"
 
@@ -135,15 +157,35 @@
         dest: "{{ student_home }}/.config/code-server/config.yaml"
         content: |
           bind-addr: 0.0.0.0:8080
-          auth: none
+          auth: password
+          password: {{ code_server_password }}
           cert: false
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create VS Code user settings directory
+      ansible.builtin.file:
+        path: "{{ student_home }}/.local/share/code-server/User"
+        state: directory
+        mode: '0700'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Configure VS Code settings
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/.local/share/code-server/User/settings.json"
+        content: |
+          {
+            "security.workspace.trust.enabled": false
+          }
         mode: '0644'
         owner: "{{ student_user }}"
         group: "{{ student_user }}"
 
     - name: Create code-server systemd service
       ansible.builtin.copy:
-        dest: /etc/systemd/system/code-server@.service
+        dest: /etc/systemd/system/code-server.service
         content: |
           [Unit]
           Description=code-server
@@ -153,44 +195,6 @@
           Type=exec
           ExecStart=/usr/bin/code-server
           Restart=always
-          User=%i
-
-          [Install]
-          WantedBy=multi-user.target
-        mode: '0644'
-
-    - name: Start and enable code-server service
-      ansible.builtin.systemd:
-        name: "code-server@{{ student_user }}"
-        enabled: true
-        state: started
-        daemon_reload: true
-
-    - name: Install wetty dependencies
-      ansible.builtin.package:
-        name:
-          - nodejs
-          - npm
-        state: present
-
-    - name: Install wetty globally via npm
-      ansible.builtin.shell: |
-        npm install -g wetty
-      args:
-        creates: /usr/local/bin/wetty
-
-    - name: Create wetty systemd service
-      ansible.builtin.copy:
-        dest: /etc/systemd/system/wetty.service
-        content: |
-          [Unit]
-          Description=Wetty Web Terminal
-          After=network.target
-
-          [Service]
-          Type=simple
-          ExecStart=/usr/local/bin/wetty --host 0.0.0.0 --port 3000 --command /bin/bash
-          Restart=always
           User={{ student_user }}
           WorkingDirectory={{ student_home }}
 
@@ -198,9 +202,9 @@
           WantedBy=multi-user.target
         mode: '0644'
 
-    - name: Start and enable wetty service
+    - name: Start and enable code-server service
       ansible.builtin.systemd:
-        name: wetty
+        name: code-server
         enabled: true
         state: started
         daemon_reload: true
@@ -209,15 +213,8 @@
       ansible.builtin.wait_for:
         port: 8080
         host: 0.0.0.0
-        timeout: 30
-        msg: "code-server did not start within 30 seconds"
-
-    - name: Wait for wetty to be ready
-      ansible.builtin.wait_for:
-        port: 3000
-        host: 0.0.0.0
-        timeout: 30
-        msg: "wetty did not start within 30 seconds"
+        timeout: 60
+        msg: "code-server did not start within 60 seconds"
 
     - name: Display setup completion message
       ansible.builtin.debug:
@@ -226,6 +223,6 @@
           - yamllint installed
           - yamllint config created at {{ student_home }}/.yamllint
           - Practice YAML files created in {{ student_home }}
-          - VS Code (code-server) running on port 8080
-          - Wetty web terminal running on port 3000
+          - VS Code (code-server) running on port 8080 (password: {{ code_server_password }})
+          - Terminal available via built-in /tty1
           - Ready to start Module 01

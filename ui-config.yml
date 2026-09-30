@@ -19,7 +19,8 @@ antora:
       label: "Module 6: Validate and run Ansible playbooks"
 
 tabs:
-  - name: ">_ terminal"
-    url: /wetty
   - name: VSCode Editor
     url: https://vscode-${guid}.${domain}/?folder=/home/rhel/
+  - name: "Terminal"
+    port: 443
+    path: /tty1
