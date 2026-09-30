@@ -116,6 +116,93 @@
         owner: "{{ student_user }}"
         group: "{{ student_user }}"
 
+    - name: Install code-server (VS Code in browser)
+      ansible.builtin.shell: |
+        curl -fsSL https://code-server.dev/install.sh | sh
+      args:
+        creates: /usr/bin/code-server
+
+    - name: Create code-server config directory
+      ansible.builtin.file:
+        path: "{{ student_home }}/.config/code-server"
+        state: directory
+        mode: '0755'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Configure code-server
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/.config/code-server/config.yaml"
+        content: |
+          bind-addr: 0.0.0.0:8080
+          auth: none
+          cert: false
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create code-server systemd service
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/code-server@.service
+        content: |
+          [Unit]
+          Description=code-server
+          After=network.target
+
+          [Service]
+          Type=exec
+          ExecStart=/usr/bin/code-server
+          Restart=always
+          User=%i
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: Start and enable code-server service
+      ansible.builtin.systemd:
+        name: "code-server@{{ student_user }}"
+        enabled: true
+        state: started
+        daemon_reload: true
+
+    - name: Install wetty dependencies
+      ansible.builtin.package:
+        name:
+          - nodejs
+          - npm
+        state: present
+
+    - name: Install wetty globally via npm
+      ansible.builtin.shell: |
+        npm install -g wetty
+      args:
+        creates: /usr/local/bin/wetty
+
+    - name: Create wetty systemd service
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/wetty.service
+        content: |
+          [Unit]
+          Description=Wetty Web Terminal
+          After=network.target
+
+          [Service]
+          Type=simple
+          ExecStart=/usr/local/bin/wetty --host 0.0.0.0 --port 3000 --ssh-host localhost --ssh-user {{ student_user }}
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: Start and enable wetty service
+      ansible.builtin.systemd:
+        name: wetty
+        enabled: true
+        state: started
+        daemon_reload: true
+
     - name: Display setup completion message
       ansible.builtin.debug:
         msg: |
@@ -123,4 +210,6 @@
           - yamllint installed
           - yamllint config created at {{ student_home }}/.yamllint
           - Practice YAML files created in {{ student_home }}
+          - VS Code (code-server) running on port 8080
+          - Wetty web terminal running on port 3000
           - Ready to start Module 01

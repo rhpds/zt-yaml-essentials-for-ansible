@@ -3,7 +3,7 @@
 # See https://github.com/rhpds/lab_zero_touch_template for reference.
 containers: []
 virtualmachines:
-  - name: "host1"
+  - name: host1
     image: "rhel-9.5"
     memory: "8G"
     cores: 1
@@ -15,6 +15,12 @@ virtualmachines:
       - default
       - secondary
     services:
+      - name: wetty-3000
+        ports:
+          - port: 3000
+            protocol: TCP
+            targetPort: 3000
+            name: wetty
       - name: vscode-8080
         ports:
           - port: 8080
@@ -22,6 +28,12 @@ virtualmachines:
             targetPort: 8080
             name: vscode
     routes:
+      - name: wetty-3000
+        host: wetty
+        service: wetty-3000
+        targetPort: 3000
+        tls: true
+        tls_termination: Edge
       - name: vscode-8080
         host: vscode
         service: vscode-8080

@@ -22,4 +22,4 @@ tabs:
   - name: ">_ terminal"
     url: /wetty
   - name: VSCode Editor
-    url: https://vscode-${guid}.${domain}/?folder=/home/rhel/ansible-files/
+    url: https://vscode-${guid}.${domain}/?folder=/home/rhel/
