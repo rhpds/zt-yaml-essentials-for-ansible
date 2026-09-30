@@ -1,0 +1,170 @@
+= Fix broken YAML using yamllint feedback
+
+== Learning Objectives
+
+After completing this module, you will be able to:
+
+* Interpret yamllint error messages to identify specific YAML syntax issues
+* Fix common YAML errors including tab characters, inconsistent indentation, trailing spaces, and missing syntax
+* Use the iterative fix-validate cycle to debug YAML files
+* Recognize patterns in YAML syntax errors and their solutions
+
+== Reading yamllint error messages
+
+yamllint provides precise error messages that tell you exactly where problems exist and what needs fixing. Understanding the error message format makes debugging fast and efficient.
+
+*yamllint error format:*
+
+Every yamllint error follows this pattern:
+
+[source,text]
+----
+filename:line:column: [severity] description (rule-name)
+----
+
+For example:
+
+[source,text]
+----
+broken.yml:5:3: [error] trailing spaces (trailing-spaces)
+----
+
+This error tells you:
+
+- *File:* `broken.yml`
+- *Line:* line 5
+- *Column:* column 3 (the third character position on line 5)
+- *Severity:* `error` (must be fixed for valid YAML)
+- *Description:* `trailing spaces` (extra whitespace at the end of the line)
+- *Rule name:* `trailing-spaces` (the yamllint rule that caught this issue)
+
+The line and column numbers act as coordinates. They tell you the exact character position where the problem occurs. Open the file in VS Code, navigate to that line, and look at that specific column position to find the issue.
+
+*Error severity levels:*
+
+yamllint uses two severity levels:
+
+- *error:* Critical syntax problems that make the YAML invalid or violate strict syntax rules. These must be fixed.
+- *warning:* Style or convention issues that do not break YAML parsing but may cause problems or reduce readability. These should be fixed for clean, maintainable YAML.
+
+When yamllint reports multiple errors, fix them from top to bottom. Start with the first error in the output, fix it, save the file, and re-run yamllint. Sometimes fixing one error resolves several others because the parser can now understand the structure correctly.
+
+== Hands-on: Fix broken.yml iteratively
+
+The file `broken.yml` contains multiple intentional YAML syntax errors. You will use yamllint to identify each error, fix it, and validate the correction by re-running yamllint. This exercise simulates the real-world debugging workflow.
+
+. Open the file `broken.yml` in VS Code from the lab environment.
+
+. Before running yamllint, visually scan the file. Look for obvious issues like misaligned indentation, inconsistent spacing, or unusual characters. This builds your ability to spot errors without tools.
+
+. Run yamllint on the broken file:
++
+[source,bash,role="execute"]
+----
+yamllint broken.yml
+----
++
+yamllint will print multiple error messages. Each message identifies a specific problem at a specific location.
+
+. Read the first error in the output. Note the line number, column number, and error description.
+
+. Navigate to that line in VS Code. Use the line number from the error message to jump directly to the problem location.
+
+. Identify the issue based on the error description. Common errors you will encounter:
++
+- *Tab characters:* YAML parsers forbid tabs. Replace all tabs with spaces. In VS Code, use Find & Replace (`Cmd+H` or `Ctrl+H`), search for `\t` (with regex enabled), and replace with two spaces.
+- *Inconsistent indentation:* Keys at the same level must align vertically. Check that nested keys use exactly 2 spaces per level. Fix any keys that are misaligned.
+- *Trailing spaces:* Extra whitespace at the end of a line. Delete any spaces after the last visible character on the line.
+- *Missing document start marker:* The file should begin with `---`. Add it if missing.
+- *Missing space after colon:* YAML requires `key: value` (colon followed by space), not `key:value`. Add the missing space.
+- *Line too long:* Some yamllint configurations limit line length. Break long lines into multi-line strings using the pipe `|` operator.
+
+. Fix the error by editing the file. Save your changes.
+
+. Re-run yamllint to confirm the error is resolved:
++
+[source,bash,role="execute"]
+----
+yamllint broken.yml
+----
++
+If the error you fixed is gone, the output will no longer show that specific error message. If the error persists, re-read the error message and check your fix.
+
+. Repeat the process for the next error in the output. Continue this cycle — read error, navigate to line, fix issue, save, re-run yamllint — until yamllint produces no output.
+
+. When yamllint prints no output, all errors are resolved. The file is now valid YAML.
+
+=== Verify
+
+Confirm that running `yamllint broken.yml` produces no output. No output means the file passes all yamllint checks and is syntactically valid.
+
+If yamllint still reports errors:
+
+* Read the line and column numbers carefully. Navigate to the exact location indicated.
+* Check for tabs by enabling the "Render Whitespace" option in VS Code (View > Render Whitespace). Tabs will appear as arrows, spaces as dots.
+* Verify that all indentation uses exactly 2 spaces per level with no mixing of tabs and spaces.
+* Look for trailing spaces at the end of lines by moving your cursor to the end of each line.
+* Ensure that every key-value pair uses the format `key: value` with a space after the colon.
+
+== Common YAML error patterns and solutions
+
+After fixing `broken.yml`, you have encountered the most common YAML syntax errors. Recognizing these patterns helps you debug YAML files faster.
+
+*Tab characters:*
+
+Tabs are the most frequent YAML error. YAML parsers reject tabs entirely because tabs render inconsistently across editors and systems. Some editors show tabs as 4 spaces, others as 8 spaces. This creates ambiguity that breaks the structure.
+
+Solution: Replace all tabs with spaces. Use VS Code's Find & Replace with regex enabled to search for `\t` and replace with two spaces. Configure your editor to insert spaces when you press the Tab key.
+
+*Inconsistent indentation:*
+
+Mixing 2-space and 4-space indentation breaks the parent-child structure. All keys at the same level must align vertically with the same number of spaces.
+
+Solution: Pick one indentation standard (2 spaces per level for Red Hat Ansible Automation Platform Playbooks) and apply it consistently. Use VS Code's indentation guides (visible as vertical lines) to check alignment.
+
+*Trailing whitespace:*
+
+Invisible spaces at the end of lines cause warnings. These spaces serve no purpose and can cause unexpected behavior in some parsers.
+
+Solution: Enable "Render Whitespace" in VS Code to see trailing spaces as dots. Delete any spaces after the last visible character on each line. Many editors have a "Trim Trailing Whitespace" command that automates this.
+
+*Missing space after colon:*
+
+YAML requires `key: value`, not `key:value`. The space after the colon is mandatory.
+
+Solution: Add a space between the colon and the value. Search for `:` followed immediately by a non-space character and add the missing space.
+
+*yamllint catches visual blind spots:*
+
+Some errors are hard to spot visually but easy for yamllint to detect. Tabs look like spaces in most editors. Trailing whitespace is invisible. Subtle indentation differences are hard to see without guides. yamllint catches all of these instantly.
+
+Use yamllint early and often. Run it after every significant edit to catch errors before they accumulate. The iterative fix-validate cycle prevents frustration and saves debugging time.
+
+== Learning Outcomes Checkpoint
+
+Before moving to the next module, confirm that you can:
+
+* Read yamllint error messages and extract the line number, column number, and error description
+* Navigate to the exact location of an error in a YAML file using line and column coordinates
+* Identify and fix tab characters by replacing them with spaces
+* Recognize inconsistent indentation and align keys to the correct indentation level
+* Remove trailing whitespace from the end of lines
+* Add missing spaces after colons in key-value pairs
+* Use the iterative fix-validate cycle (fix one error, re-run yamllint, repeat) to debug YAML files
+* Explain why yamllint is valuable for catching errors that are hard to spot visually
+
+== Conclusion
+
+yamllint error messages provide precise debugging coordinates. The format `filename:line:column: [severity] description (rule-name)` tells you exactly where the problem exists and what needs fixing. This precision makes debugging fast and removes guesswork.
+
+The most common YAML errors are tab characters, inconsistent indentation, trailing whitespace, and missing spaces after colons. These errors often go unnoticed during visual inspection but break YAML parsers or violate style conventions. yamllint catches these issues instantly.
+
+The iterative fix-validate cycle is a professional debugging workflow. Fix one error, re-run yamllint to confirm the fix, then move to the next error. This approach prevents new errors from creeping in and ensures that each change improves the file.
+
+yamllint is language-agnostic. It validates pure YAML syntax without understanding Ansible-specific keywords or structures. This makes yamllint a universal first step before running ansible-playbook or other application-specific tools.
+
+You have now debugged a broken YAML file using yamllint feedback. You can interpret error messages, navigate to exact error locations, and fix common syntax issues. This skill is essential for writing and maintaining Red Hat Ansible Automation Platform Playbooks and any other YAML-based automation or configuration content.
+
+[.solve-button-placeholder]#solve-button-placeholder#
+
+[.validate-button-placeholder]#validate-button-placeholder#
