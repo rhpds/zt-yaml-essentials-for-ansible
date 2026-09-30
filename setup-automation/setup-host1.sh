@@ -2,8 +2,15 @@
 # Setup script for host1 (YAML Essentials lab environment)
 # This script is automatically executed by ZT when host1 is provisioned
 
-set -e  # Exit on error
-set -x  # Show commands being executed
+set -eu  # Exit on error and undefined variables
+
+# Log everything to a file for debugging
+exec 1> >(tee -a /var/log/setup-host1.log)
+exec 2>&1
+
+echo "=========================================="
+echo "Starting setup-host1.sh at $(date)"
+echo "=========================================="
 
 LAB_USER="rhel"
 LAB_HOME="/home/${LAB_USER}"
@@ -145,10 +152,15 @@ WorkingDirectory=${LAB_HOME}
 WantedBy=multi-user.target
 EOF
 
+# Keep the user service alive after provisioning
+echo "Enabling user linger..."
+loginctl enable-linger ${LAB_USER} || true
+
 # Start code-server
 echo "Starting code-server..."
 systemctl daemon-reload
 systemctl enable --now code-server
+systemctl restart code-server
 
 # Wait for code-server to be ready
 echo "Waiting for code-server to start..."
@@ -158,8 +170,22 @@ timeout 60 bash -c 'until curl -s http://localhost:8080 >/dev/null; do sleep 1; 
   exit 1
 }
 
-echo "=== Setup Complete ==="
-echo "- yamllint installed"
+echo "=========================================="
+echo "Verifying setup..."
+echo "=========================================="
+systemctl --no-pager --full status code-server || true
+echo ""
+echo "Port 8080 status:"
+ss -tlnp | grep 8080 || echo "WARNING: Port 8080 not listening!"
+echo ""
+echo "=========================================="
+echo "Setup Complete at $(date)"
+echo "=========================================="
+echo "- yamllint: $(which yamllint || echo 'NOT FOUND')"
+echo "- code-server: $(which code-server || echo 'NOT FOUND')"
 echo "- Practice YAML files created in ${LAB_HOME}"
-echo "- code-server running on port 8080 (password: ${CODE_SERVER_PASSWORD})"
+echo "- code-server password: ${CODE_SERVER_PASSWORD}"
+echo "- code-server should be on http://localhost:8080"
 echo "- Terminal available via /tty1"
+echo "- Logs saved to /var/log/setup-host1.log"
+echo "=========================================="
