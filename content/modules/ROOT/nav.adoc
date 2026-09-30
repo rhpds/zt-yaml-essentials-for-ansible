@@ -1,1 +1,7 @@
 * xref:index.adoc[Lab Overview]
+* xref:module-01-why-yaml.adoc[Module 1: Why YAML? Introduction and advantages]
+* xref:module-02-syntax-basics.adoc[Module 2: YAML syntax basics]
+* xref:module-03-data-types.adoc[Module 3: YAML data types]
+* xref:module-04-write-validate-yamllint.adoc[Module 4: Write and validate YAML with yamllint]
+* xref:module-05-fix-broken-yaml.adoc[Module 5: Fix broken YAML using yamllint feedback]
+* xref:module-06-validate-run-playbooks.adoc[Module 6: Validate and run Ansible playbooks]

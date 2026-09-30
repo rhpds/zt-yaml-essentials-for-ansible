@@ -1,13 +1,20 @@
 ---
 site:
-  title: My Project
-  url: https://github.com/rhpds/my-project
+  title: YAML Essentials for Ansible
+  url: https://github.com/rhpds/zt-yaml-essentials-for-ansible
   start_page: modules::index.adoc
 
 content:
   sources:
     - url: .
       start_path: content
+
+antora:
+  extensions:
+    - require: '@sntke/antora-mermaid-extension'
+    - require: '@andrew-jones/antora-tabs-extension'
+    - require: /antora/lib/dev-mode.js
+      enabled: true
 
 ui:
   bundle:
