@@ -129,8 +129,7 @@ echo "Configuring code-server..."
 install -d -o "${LAB_USER}" -g "${LAB_USER}" -m 0700 "${LAB_HOME}/.config/code-server"
 cat > "${LAB_HOME}/.config/code-server/config.yaml" <<EOF
 bind-addr: 0.0.0.0:8080
-auth: password
-password: ${CODE_SERVER_PASSWORD}
+auth: none
 cert: false
 EOF
 chown "${LAB_USER}:${LAB_USER}" "${LAB_HOME}/.config/code-server/config.yaml"
@@ -196,8 +195,8 @@ echo "=========================================="
 echo "- yamllint: $(which yamllint || echo 'NOT FOUND')"
 echo "- code-server: $(which code-server || echo 'NOT FOUND')"
 echo "- Practice YAML files created in ${LAB_HOME}"
-echo "- code-server password: ${CODE_SERVER_PASSWORD}"
-echo "- code-server should be on http://localhost:8080"
+echo "- code-server running with NO authentication (auth: none)"
+echo "- code-server accessible at http://localhost:8080"
 echo "- Terminal available via /tty1"
 echo "- Logs saved to /var/log/setup-host1.log"
 echo "=========================================="

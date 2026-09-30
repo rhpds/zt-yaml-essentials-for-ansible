@@ -47,8 +47,6 @@
     - name: Execute setup script
       ansible.builtin.shell: |
         /tmp/setup-{{ inventory_hostname }}.sh 2>&1 | tee /var/log/setup-{{ inventory_hostname }}.log
-      environment:
-        CODE_SERVER_PASSWORD: "ansible123!"
       become: true
       register: setup_output
       when: setup_script.stat.exists
