@@ -1,0 +1,209 @@
+= Write and validate YAML with yamllint
+
+== Learning Objectives
+
+After completing this module, you will be able to:
+
+* Install and verify yamllint as a YAML validation tool
+* Write a valid YAML file from scratch using proper syntax
+* Use yamllint to validate YAML syntax and confirm no errors
+* Understand yamllint output format (no output = success, errors show line:column format)
+
+== What is yamllint and why use it
+
+yamllint is an industry-standard linter for YAML files. A linter is a tool that checks your code for syntax errors, style violations, and potential problems before you run the code. yamllint examines YAML files and reports issues with indentation, spacing, key names, and structure.
+
+yamllint is used across many domains where YAML is common:
+
+- Kubernetes manifests and Helm charts
+- Docker Compose files
+- CI/CD pipeline definitions (GitHub Actions, GitLab CI, Jenkins)
+- Red Hat Ansible Automation Platform Playbooks
+
+The benefit of yamllint is that it catches syntax errors early. You validate your YAML file with yamllint before you pass it to ansible-playbook, kubectl, or docker-compose. This saves time because you fix syntax problems immediately instead of discovering them during deployment.
+
+*yamllint output format:*
+
+yamllint follows a simple output convention:
+
+- *No output means success.* If yamllint prints nothing, your YAML file is valid.
+- *Errors include line and column numbers.* When yamllint finds a problem, it prints the filename, line number, and column number where the error occurred: `practice.yaml:5:7: [error] syntax error: expected <block end>, but found ':'`
+
+This format makes debugging fast. You know exactly which line and character position to fix.
+
+== Install and verify yamllint
+
+yamllint is already installed in your lab environment. Verify the installation by checking the version.
+
+. Run the following command to confirm yamllint is available:
++
+[source,bash,role="execute"]
+----
+yamllint --version
+----
++
+You should see output similar to:
++
+[source,text]
+----
+yamllint 1.35.1
+----
+
+=== Verify
+
+Confirm that running `yamllint --version` displays a version number without errors. If you see a version number, yamllint is installed and ready to use.
+
+== Hands-on: Write practice.yaml from scratch
+
+Now that yamllint is available, practice writing a valid YAML file from scratch. You will create a new file called `practice.yaml` and populate it with proper YAML structure.
+
+. Create and open the file `practice.yaml` in VS Code from the lab environment.
+
+. Add the document start marker `---` at the top of the file:
++
+[source,yaml]
+----
+---
+----
+
+. Add a comment explaining what this file represents:
++
+[source,yaml]
+----
+---
+# Practice YAML file for yamllint validation
+----
+
+. Add a top-level dictionary with three key-value pairs. Use proper 2-space indentation and include different scalar types:
++
+[source,yaml]
+----
+---
+# Practice YAML file for yamllint validation
+name: sample-application
+description: A practice YAML file to test yamllint validation
+version: "1.0"
+enabled: true
+----
+
+. Add a nested dictionary under a new key called `config`:
++
+[source,yaml]
+----
+---
+# Practice YAML file for yamllint validation
+name: sample-application
+description: A practice YAML file to test yamllint validation
+version: "1.0"
+enabled: true
+config:
+  timeout: 30
+  retries: 3
+  log_level: info
+----
+
+. Add a block-style list under a new key called `environments`:
++
+[source,yaml]
+----
+---
+# Practice YAML file for yamllint validation
+name: sample-application
+description: A practice YAML file to test yamllint validation
+version: "1.0"
+enabled: true
+config:
+  timeout: 30
+  retries: 3
+  log_level: info
+environments:
+  - development
+  - staging
+  - production
+----
+
+. Save the file. Observe the syntax highlighting in VS Code. If your YAML is valid, the keys, values, and comments will be highlighted in distinct colors.
+
+=== Verify
+
+Confirm that your `practice.yaml` file contains:
+
+* The document start marker `---` at the top
+* At least one comment starting with `#`
+* At least three top-level key-value pairs with different scalar types (string, number, boolean)
+* A nested dictionary (a key whose value is another dictionary) with proper indentation
+* A block-style list (using dashes) with at least three items
+* Consistent 2-space indentation throughout
+* Valid syntax as indicated by VS Code syntax highlighting (no red underlines or error markers)
+
+== Validate with yamllint and interpret output
+
+Now that you have written a YAML file, validate it with yamllint. This step confirms that your syntax is correct and identifies any issues.
+
+. Run yamllint on your `practice.yaml` file:
++
+[source,bash,role="execute"]
+----
+yamllint practice.yaml
+----
++
+*If your YAML is valid:* yamllint prints no output. Silence means success. Your YAML file passed all syntax and style checks.
++
+*If yamllint finds errors:* yamllint prints the filename, line number, column number, and error description. For example:
++
+[source,text]
+----
+practice.yaml:5:7: [error] syntax error: expected <block end>, but found ':'
+----
++
+This error tells you:
++
+- The file is `practice.yaml`
+- The error is on line 5, column 7
+- The problem is a syntax error related to an unexpected colon
+
+. If yamllint reports errors, open `practice.yaml` in VS Code and navigate to the line and column number indicated in the error message.
+
+. Fix the issue. Common problems include:
++
+- *Incorrect indentation:* Verify that nested keys are indented 2 spaces per level
+- *Missing colon or space:* Ensure all key-value pairs use the format `key: value` (colon followed by space)
+- *Trailing spaces:* Some yamllint configurations flag trailing whitespace as errors. Remove any extra spaces at the end of lines.
+- *Inconsistent indentation:* Confirm that all keys at the same level are aligned with the same indentation
+
+. Re-run yamllint after making changes:
++
+[source,bash,role="execute"]
+----
+yamllint practice.yaml
+----
+
+. Repeat the write-validate-fix cycle until yamllint prints no output.
+
+=== Verify
+
+Confirm that running `yamllint practice.yaml` produces no output. No output means your YAML file is syntactically valid and passes all yamllint checks.
+
+If yamllint still reports errors, review the error message carefully. Check the line and column number. Verify that your indentation uses spaces (not tabs) and that all keys follow the `key: value` format with a space after the colon.
+
+== Learning Outcomes Checkpoint
+
+Before moving to the next module, confirm that you can:
+
+* Explain what yamllint is and why it is used (industry-standard YAML linter for syntax validation)
+* Understand yamllint output format (no output = success, errors show file:line:column format)
+* Write a valid YAML file from scratch including document markers, scalars, dictionaries, and lists
+* Run yamllint on a YAML file and interpret the results
+* Use the write-validate-fix cycle to correct syntax errors identified by yamllint
+
+== Conclusion
+
+yamllint is an industry-standard tool for validating YAML syntax. It checks your YAML files for syntax errors, indentation problems, and style violations before you use the files with application-specific tools like ansible-playbook, kubectl, or docker-compose.
+
+yamllint follows a simple output convention. No output means your YAML is valid. When yamllint finds errors, it prints the filename, line number, and column number where the problem occurred. This makes debugging fast and precise.
+
+The write-validate-fix cycle is a professional workflow for creating YAML content. Write your YAML file, run yamllint to validate it, fix any errors, and repeat until yamllint produces no output. This approach catches syntax problems early and prevents errors from appearing during deployment.
+
+yamllint is language-agnostic. It validates pure YAML syntax without understanding Ansible-specific keywords, Kubernetes-specific fields, or Docker Compose-specific structures. This makes yamllint a universal first step before running application-specific validation tools.
+
+You have now written a valid YAML file from scratch and validated it with yamllint. You understand the write-validate-fix workflow and can interpret yamllint output to debug syntax errors. This skill is foundational for writing Red Hat Ansible Automation Platform Playbooks and any other YAML-based configuration or automation content.
