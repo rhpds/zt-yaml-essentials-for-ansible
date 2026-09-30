@@ -57,7 +57,11 @@ Confirm that running `yamllint --version` displays a version number without erro
 
 Now that yamllint is available, practice writing a valid YAML file from scratch. You will create a new file called `practice.yaml` and populate it with proper YAML structure.
 
-. Create and open the file `practice.yaml` in VS Code from the lab environment.
+. Create and open a new file called `practice.yaml` in VS Code:
++
+* Click *File > New File* in the VS Code menu
+* Save the file as `practice.yaml` in your workspace directory
+* Alternatively, right-click in the VS Code Explorer pane and select *New File*, then name it `practice.yaml`
 
 . Add the document start marker `---` at the top of the file:
 +

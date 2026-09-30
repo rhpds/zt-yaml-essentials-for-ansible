@@ -225,7 +225,11 @@ This preserves the line breaks, allowing you to run multiple commands in sequenc
 
 Now that you understand scalars, lists, dictionaries, and multi-line strings, practice writing each data type.
 
-. Open the file `data-types-practice.yml` in VS Code from the lab environment.
+. Create and open a new file called `data-types-practice.yml` in VS Code:
++
+* Click *File > New File* in the VS Code menu
+* Save the file as `data-types-practice.yml` in your workspace directory
+* Alternatively, right-click in the VS Code Explorer pane and select *New File*, then name it `data-types-practice.yml`
 
 . Add the document start marker `---` at the top of the file.
 

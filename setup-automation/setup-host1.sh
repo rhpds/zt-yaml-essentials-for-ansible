@@ -45,22 +45,10 @@ rules:
 EOF
 chown "${LAB_USER}:${LAB_USER}" "${LAB_HOME}/.yamllint"
 
-# Create practice YAML files
+# Create practice YAML files for specific exercises
 echo "Creating practice YAML files..."
-cat > "${WORKSPACE}/syntax-practice.yml" <<'EOF'
----
-
-EOF
-
-cat > "${WORKSPACE}/data-types-practice.yml" <<'EOF'
----
-
-EOF
-
-cat > "${WORKSPACE}/practice.yaml" <<'EOF'
----
-
-EOF
+# Note: Students will create their own syntax-practice.yml, data-types-practice.yml, and practice.yaml
+# We only pre-create files that need specific content for exercises
 
 cat > "${WORKSPACE}/broken.yml" <<'EOF'
 name:value
@@ -158,10 +146,10 @@ After=network.target
 
 [Service]
 Type=exec
-ExecStart=/usr/bin/code-server
+ExecStart=/usr/bin/code-server ${WORKSPACE}
 Restart=always
 User=${LAB_USER}
-WorkingDirectory=${LAB_HOME}
+WorkingDirectory=${WORKSPACE}
 
 [Install]
 WantedBy=multi-user.target

@@ -29,16 +29,19 @@
       register: port_8080
       failed_when: false
 
-    - name: Check if practice files exist
+    - name: Check if workspace directory exists
       ansible.builtin.stat:
-        path: "/home/rhel/{{ item }}"
-      register: practice_files
+        path: "/home/rhel/yaml-practice"
+      register: workspace_check
+
+    - name: Check if pre-created exercise files exist
+      ansible.builtin.stat:
+        path: "/home/rhel/yaml-practice/{{ item }}"
+      register: exercise_files
       loop:
-        - syntax-practice.yml
-        - data-types-practice.yml
-        - practice.yaml
         - broken.yml
         - apache-playbook.yml
+        - inventory
 
     - name: Fail if setup has not completed
       ansible.builtin.fail:
@@ -47,10 +50,14 @@
           {% if yamllint_check.rc != 0 %}- yamllint not installed{% endif %}
           {% if codeserver_check.rc != 0 %}- code-server not installed{% endif %}
           {% if port_8080 is failed %}- code-server not listening on port 8080{% endif %}
+          {% if not workspace_check.stat.exists %}- workspace directory not created{% endif %}
+          {% if exercise_files.results | selectattr('stat.exists', 'equalto', false) | list | length > 0 %}- exercise files not created{% endif %}
       when: >
         yamllint_check.rc != 0 or
         codeserver_check.rc != 0 or
-        port_8080 is failed
+        port_8080 is failed or
+        not workspace_check.stat.exists or
+        exercise_files.results | selectattr('stat.exists', 'equalto', false) | list | length > 0
 
     - name: Display success message
       ansible.builtin.debug:

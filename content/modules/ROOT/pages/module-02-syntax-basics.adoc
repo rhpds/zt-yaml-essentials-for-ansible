@@ -141,7 +141,11 @@ Use comments generously in your Red Hat Ansible Automation Platform Playbooks. A
 
 Now that you understand the syntax rules, practice writing a valid YAML file.
 
-. Open the file `syntax-practice.yml` in VS Code from the lab environment.
+. Create and open a new file called `syntax-practice.yml` in VS Code:
++
+* Click *File > New File* in the VS Code menu
+* Save the file as `syntax-practice.yml` in your workspace directory
+* Alternatively, right-click in the VS Code Explorer pane and select *New File*, then name it `syntax-practice.yml`
 
 . Add the document start marker `---` at the top of the file.
 
