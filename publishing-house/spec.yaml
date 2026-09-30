@@ -34,8 +34,16 @@ spec:
     duration_min: 12
     status: not_started
   - id: module-04
-    title: Hands-on practice - write and fix YAML files
-    duration_min: 13
+    title: Write and validate YAML with yamllint
+    duration_min: 10
+    status: not_started
+  - id: module-05
+    title: Fix broken YAML using yamllint feedback
+    duration_min: 10
+    status: not_started
+  - id: module-06
+    title: Validate and run Ansible playbooks
+    duration_min: 10
     status: not_started
   environment:
     platform: rhel-vms
@@ -70,7 +78,7 @@ spec:
     - cdn.redhat.com
     gpu_nodes: 0
     gpu_type: ''
-  duration_hours: 0.75
+  duration_hours: 1.0
   audience: beginner
 development:
   automation:
