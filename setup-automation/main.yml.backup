@@ -1,0 +1,228 @@
+---
+- name: Set up YAML Essentials for Ansible lab environment
+  hosts: host1
+  gather_facts: true
+  become: true
+  vars:
+    student_user: "rhel"
+    student_home: "/home/rhel"
+    code_server_version: "4.96.2"
+    code_server_arch: "amd64"
+    code_server_password: "ansible123!"
+
+  tasks:
+    - name: Install yamllint
+      ansible.builtin.package:
+        name: yamllint
+        state: present
+
+    - name: Create yamllint config with beginner-friendly rules
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/.yamllint"
+        content: |
+          extends: default
+          rules:
+            line-length:
+              max: 120
+            indentation:
+              spaces: 2
+            document-start: require
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create syntax-practice.yml stub (Module 02)
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/syntax-practice.yml"
+        content: |
+          ---
+
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create data-types-practice.yml stub (Module 03)
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/data-types-practice.yml"
+        content: |
+          ---
+
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create practice.yaml stub (Module 04)
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/practice.yaml"
+        content: |
+          ---
+
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create broken.yml with intentional errors (Module 05)
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/broken.yml"
+        content: |
+          name:value
+          description: "This file has multiple YAML syntax errors for practice"
+          	indented_with_tab: true
+          items:
+              - first
+            - second
+          trailing_spaces: "check this line"
+          missing_doc_start: true
+          this_line_is_intentionally_way_too_long_to_exceed_the_recommended_line_length_limit_of_120_characters_which_should_trigger_a_yamllint_warning
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create apache-playbook.yml (Module 06)
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/apache-playbook.yml"
+        content: |
+          ---
+          - name: Install and configure Apache web server
+            hosts: localhost
+            become: true
+            tasks:
+              - name: Install Apache package
+                ansible.builtin.package:
+                  name: httpd
+                  state: present
+
+              - name: Start Apache service
+                ansible.builtin.service:
+                  name: httpd
+                  state: started
+                  enabled: true
+
+              - name: Allow HTTP traffic through firewall
+                ansible.posix.firewalld:
+                  service: http
+                  permanent: true
+                  state: enabled
+                  immediate: true
+                when: ansible_os_family == "RedHat"
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create simple Ansible inventory for localhost
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/inventory"
+        content: |
+          [local]
+          localhost ansible_connection=local
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Check if code-server is already installed
+      ansible.builtin.command: which code-server
+      register: code_server_check
+      failed_when: false
+      changed_when: false
+
+    - name: Download code-server RPM
+      ansible.builtin.get_url:
+        url: "https://github.com/coder/code-server/releases/download/v{{ code_server_version }}/code-server-{{ code_server_version }}-{{ code_server_arch }}.rpm"
+        dest: "/var/tmp/code-server-{{ code_server_version }}-{{ code_server_arch }}.rpm"
+        mode: '0644'
+      when: code_server_check.rc != 0
+
+    - name: Install code-server from RPM
+      ansible.builtin.yum:
+        name: "/var/tmp/code-server-{{ code_server_version }}-{{ code_server_arch }}.rpm"
+        state: present
+        disable_gpg_check: true
+      when: code_server_check.rc != 0
+
+    - name: Clean up code-server RPM
+      ansible.builtin.file:
+        path: "/var/tmp/code-server-{{ code_server_version }}-{{ code_server_arch }}.rpm"
+        state: absent
+
+    - name: Create code-server config directory
+      ansible.builtin.file:
+        path: "{{ student_home }}/.config/code-server"
+        state: directory
+        mode: '0700'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Configure code-server
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/.config/code-server/config.yaml"
+        content: |
+          bind-addr: 0.0.0.0:8080
+          auth: password
+          password: {{ code_server_password }}
+          cert: false
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create VS Code user settings directory
+      ansible.builtin.file:
+        path: "{{ student_home }}/.local/share/code-server/User"
+        state: directory
+        mode: '0700'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Configure VS Code settings
+      ansible.builtin.copy:
+        dest: "{{ student_home }}/.local/share/code-server/User/settings.json"
+        content: |
+          {
+            "security.workspace.trust.enabled": false
+          }
+        mode: '0644'
+        owner: "{{ student_user }}"
+        group: "{{ student_user }}"
+
+    - name: Create code-server systemd service
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/code-server.service
+        content: |
+          [Unit]
+          Description=code-server
+          After=network.target
+
+          [Service]
+          Type=exec
+          ExecStart=/usr/bin/code-server
+          Restart=always
+          User={{ student_user }}
+          WorkingDirectory={{ student_home }}
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: Start and enable code-server service
+      ansible.builtin.systemd:
+        name: code-server
+        enabled: true
+        state: started
+        daemon_reload: true
+
+    - name: Wait for code-server to be ready
+      ansible.builtin.wait_for:
+        port: 8080
+        host: 0.0.0.0
+        timeout: 60
+        msg: "code-server did not start within 60 seconds"
+
+    - name: Display setup completion message
+      ansible.builtin.debug:
+        msg: |
+          YAML Essentials lab environment ready on {{ inventory_hostname }}!
+          - yamllint installed
+          - yamllint config created at {{ student_home }}/.yamllint
+          - Practice YAML files created in {{ student_home }}
+          - VS Code (code-server) running on port 8080 (password: {{ code_server_password }})
+          - Terminal available via built-in /tty1
+          - Ready to start Module 01
