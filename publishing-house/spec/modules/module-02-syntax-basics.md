@@ -30,12 +30,21 @@ This module teaches the fundamental syntax rules that govern all YAML files. Par
 1. Navigate to the lab module page for YAML syntax basics
 2. Read the "YAML file structure" section explaining that YAML files typically start with `---` (document start marker) and may end with `...` (optional document end marker)
 3. Observe examples of single-document and multi-document YAML files
-4. Read the "Indentation rules" section explaining that YAML uses spaces (not tabs) for indentation and that indentation level defines structure and nesting
-5. View side-by-side examples showing correct indentation (2 spaces per level) versus incorrect indentation (mixing tabs and spaces, inconsistent spacing)
-6. Understand that indentation errors are the most common cause of YAML parsing failures
-7. Read the "Case sensitivity" section explaining that YAML treats `Name`, `name`, and `NAME` as three different keys
-8. Observe examples demonstrating how case mismatches cause Ansible to fail or produce unexpected results
-9. Review a summary checklist of YAML syntax rules: use spaces not tabs, be consistent with indentation, and match case exactly
+4. Read the "Indentation rules" section explaining that YAML **forbids tabs** for indentation (YAML parsers reject tabs) and requires spaces only
+5. Understand that indentation level defines structure and nesting - each level typically uses 2 spaces
+6. View side-by-side examples showing correct indentation (2 spaces per level) versus incorrect indentation (mixing tabs and spaces, inconsistent spacing)
+7. **Learn the "whitespace trap"** - see an example where indentation looks right but fails because whitespace alone doesn't create hierarchy:
+   ```yaml
+   - name: Configure Apache
+     package: httpd
+     service: httpd
+   ```
+   This looks organized but YAML treats `package` and `service` as values of `name`, not separate keys. Proper structure requires explicit nesting with colons.
+8. Understand that indentation errors are the most common cause of YAML parsing failures
+9. Read the "Case sensitivity" section explaining that YAML treats `Name`, `name`, and `NAME` as three different keys
+10. Observe examples demonstrating how case mismatches cause Ansible to fail or produce unexpected results
+11. Learn about comments: lines starting with `#` extend to end of line and are ignored by parsers
+12. Review a summary checklist of YAML syntax rules: spaces only (tabs forbidden), consistent indentation creates structure, match case exactly, use `#` for comments
 
 ### Key Takeaways
 
