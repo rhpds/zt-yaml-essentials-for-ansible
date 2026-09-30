@@ -20,7 +20,7 @@ antora:
 
 tabs:
   - name: VSCode Editor
-    url: https://vscode-${guid}.${domain}/?folder=/home/rhel/
+    url: https://vscode-${guid}.${domain}/?folder=/home/rhel/yaml-practice/
   - name: "Terminal"
     port: 443
     path: /tty1

@@ -14,11 +14,15 @@ echo "=========================================="
 
 LAB_USER="rhel"
 LAB_HOME="/home/${LAB_USER}"
+WORKSPACE="${LAB_HOME}/yaml-practice"
 CODE_SERVER_VERSION="4.96.2"
 CODE_SERVER_ARCH="amd64"
-CODE_SERVER_PASSWORD="ansible123!"
 
 echo "=== Starting YAML Essentials Lab Setup on host1 ==="
+
+# Create clean workspace directory for practice files
+echo "Creating workspace directory..."
+install -d -o "${LAB_USER}" -g "${LAB_USER}" -m 0755 "${WORKSPACE}"
 
 # Check if yamllint is available
 echo "Checking yamllint..."
@@ -43,22 +47,22 @@ chown "${LAB_USER}:${LAB_USER}" "${LAB_HOME}/.yamllint"
 
 # Create practice YAML files
 echo "Creating practice YAML files..."
-cat > "${LAB_HOME}/syntax-practice.yml" <<'EOF'
+cat > "${WORKSPACE}/syntax-practice.yml" <<'EOF'
 ---
 
 EOF
 
-cat > "${LAB_HOME}/data-types-practice.yml" <<'EOF'
+cat > "${WORKSPACE}/data-types-practice.yml" <<'EOF'
 ---
 
 EOF
 
-cat > "${LAB_HOME}/practice.yaml" <<'EOF'
+cat > "${WORKSPACE}/practice.yaml" <<'EOF'
 ---
 
 EOF
 
-cat > "${LAB_HOME}/broken.yml" <<'EOF'
+cat > "${WORKSPACE}/broken.yml" <<'EOF'
 name:value
 description: "This file has multiple YAML syntax errors for practice"
 	indented_with_tab: true
@@ -70,7 +74,7 @@ missing_doc_start: true
 this_line_is_intentionally_way_too_long_to_exceed_the_recommended_line_length_limit_of_120_characters_which_should_trigger_a_yamllint_warning
 EOF
 
-cat > "${LAB_HOME}/apache-playbook.yml" <<'EOF'
+cat > "${WORKSPACE}/apache-playbook.yml" <<'EOF'
 ---
 - name: Install and configure Apache web server
   hosts: localhost
@@ -96,13 +100,13 @@ cat > "${LAB_HOME}/apache-playbook.yml" <<'EOF'
       when: ansible_os_family == "RedHat"
 EOF
 
-cat > "${LAB_HOME}/inventory" <<'EOF'
+cat > "${WORKSPACE}/inventory" <<'EOF'
 [local]
 localhost ansible_connection=local
 EOF
 
 # Set ownership on all created files
-chown -R "${LAB_USER}:${LAB_USER}" "${LAB_HOME}"/{syntax-practice.yml,data-types-practice.yml,practice.yaml,broken.yml,apache-playbook.yml,inventory}
+chown -R "${LAB_USER}:${LAB_USER}" "${WORKSPACE}"
 
 # Check if code-server is available (should be pre-installed in devtools-ansible image)
 echo "Checking code-server..."
@@ -194,7 +198,7 @@ echo "Setup Complete at $(date)"
 echo "=========================================="
 echo "- yamllint: $(which yamllint || echo 'NOT FOUND')"
 echo "- code-server: $(which code-server || echo 'NOT FOUND')"
-echo "- Practice YAML files created in ${LAB_HOME}"
+echo "- Practice YAML files created in ${WORKSPACE}"
 echo "- code-server running with NO authentication (auth: none)"
 echo "- code-server accessible at http://localhost:8080"
 echo "- Terminal available via /tty1"
