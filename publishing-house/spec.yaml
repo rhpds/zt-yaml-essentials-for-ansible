@@ -39,7 +39,7 @@ spec:
   - id: module-04
     title: Write and validate YAML with yamllint
     duration_min: 10
-    status: not_started
+    status: in_progress
   - id: module-05
     title: Fix broken YAML using yamllint feedback
     duration_min: 10
