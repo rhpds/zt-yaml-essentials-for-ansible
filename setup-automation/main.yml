@@ -189,8 +189,10 @@
 
           [Service]
           Type=simple
-          ExecStart=/usr/local/bin/wetty --host 0.0.0.0 --port 3000 --ssh-host localhost --ssh-user {{ student_user }}
+          ExecStart=/usr/local/bin/wetty --host 0.0.0.0 --port 3000 --command /bin/bash
           Restart=always
+          User={{ student_user }}
+          WorkingDirectory={{ student_home }}
 
           [Install]
           WantedBy=multi-user.target
@@ -202,6 +204,20 @@
         enabled: true
         state: started
         daemon_reload: true
+
+    - name: Wait for code-server to be ready
+      ansible.builtin.wait_for:
+        port: 8080
+        host: 0.0.0.0
+        timeout: 30
+        msg: "code-server did not start within 30 seconds"
+
+    - name: Wait for wetty to be ready
+      ansible.builtin.wait_for:
+        port: 3000
+        host: 0.0.0.0
+        timeout: 30
+        msg: "wetty did not start within 30 seconds"
 
     - name: Display setup completion message
       ansible.builtin.debug:
