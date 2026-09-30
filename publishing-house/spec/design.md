@@ -7,14 +7,18 @@
 
 ## Overview
 
-This lab teaches the basics of YAML, a simple yet powerful data serialization language, with practical examples of how YAML is used within Ansible. YAML is the foundation of Ansible playbooks, and understanding its syntax is essential for anyone working with Ansible Automation Platform. Participants will write YAML files following proper syntax and indentation rules, work with YAML data structures (dictionaries, lists, and scalars), and troubleshoot common YAML syntax errors in an interactive VS Code environment.
+Red Hat Ansible Automation Platform is an end-to-end automation platform for configuring systems, deploying software, and orchestrating advanced workflows. It includes the tools and resources necessary to create, manage, and scale automation across the entire enterprise.
+
+Red Hat Ansible Automation Platform uses YAML for content because it offers a straightforward, human-readable way to write Ansible configurations, tasks, and Playbooks. Understanding YAML is essential for anyone working with Red Hat Ansible Automation Platform.
+
+This learning path teaches the basics of YAML with practical examples of how it is used within Red Hat Ansible Automation Platform. Participants will write YAML files following proper syntax and indentation rules, work with YAML data structures (dictionaries, lists, and scalars), and troubleshoot common YAML syntax errors using industry-standard validation tools in an interactive VS Code environment.
 
 ## Target Audience
 
-- **Role:** Developers, system administrators, DevOps engineers, or anyone new to Ansible Automation Platform
+- **Role:** Developers, system administrators, DevOps engineers, or anyone new to Red Hat Ansible Automation Platform
 - **Experience level:** Beginner
 - **What they already know:** No prior knowledge of YAML or Ansible is required. Basic familiarity with text editors is helpful but not mandatory.
-- **What they don't know:** YAML syntax, structure, and how YAML is used in Ansible playbooks
+- **What they don't know:** YAML syntax, structure, and how YAML is used in Red Hat Ansible Automation Platform Playbooks and configurations
 
 ## Prerequisites
 
@@ -24,9 +28,9 @@ None. This lab is designed for learners with no prior YAML or Ansible experience
 
 ## Learning Objectives
 
-1. Create valid YAML files following proper syntax and indentation rules
-2. Write YAML dictionaries, lists, and scalars in Ansible playbooks
-3. Troubleshoot YAML syntax errors in Ansible configurations
+1. Create valid YAML files following proper syntax and indentation rules for Red Hat Ansible Automation Platform
+2. Write YAML dictionaries, lists, and scalars in Ansible Playbooks
+3. Troubleshoot YAML syntax errors in Red Hat Ansible Automation Platform configurations using yamllint
 
 ## Content Type
 
@@ -43,10 +47,11 @@ Lab (hands-on)
 | 1 | Why YAML? Introduction and advantages | 8 min |
 | 2 | YAML syntax basics - files, indentation, case sensitivity | 12 min |
 | 3 | YAML data types - dictionaries, lists, scalars, comments | 12 min |
-| 4 | Hands-on practice - write and fix YAML files | 13 min |
-| — | **Total hands-on** | **45 min** |
-| — | Intro / presentation | ~5 min |
-| — | **Total lab** | **~50 min** |
+| 4 | Write and validate YAML with yamllint | 10 min |
+| 5 | Fix broken YAML using yamllint feedback | 10 min |
+| 6 | Validate and run Ansible playbooks | 10 min |
+| — | **Total hands-on** | **62 min** |
+| — | **Total learning path** | **~60 min** |
 
 ## Difficulty Level
 
@@ -54,16 +59,22 @@ Beginner
 
 ## Environment
 
-**Learner view:** When the lab starts, participants see VS Code (or a similar code editor) in their browser with a pre-configured OpenShift cluster running in the background. Ansible Automation Platform is already installed and ready to use. The focus is on the editor — participants will write and edit YAML files directly in VS Code.
+**Learner view:** When the learning path starts, participants see VS Code in their browser with a pre-configured RHEL control node. Red Hat Ansible Automation Platform CLI tools (ansible-playbook, ansible-navigator) and yamllint are already installed and ready to use. The focus is on the editor and terminal — participants will write and validate YAML files directly in VS Code, using yamllint and Ansible validation tools via the integrated terminal.
 
 **Automation needed:** Yes
 
 The automation must provision:
-- A working OpenShift cluster (accessible but not the primary focus)
-- Red Hat Ansible Automation Platform installed and configured
-- VS Code or a web-based editor (such as VS Code in the browser via code-server) with YAML syntax highlighting enabled
-- Sample Ansible playbook files for participants to edit and experiment with
-- A simple Ansible inventory and configuration so learners can optionally run a playbook (if time permits)
+- RHEL 9.5 control node with VS Code (code-server) accessible in browser
+- Red Hat Ansible Automation Platform CLI tools installed (ansible-playbook, ansible-navigator)
+- yamllint installed and configured with beginner-friendly rules
+- VS Code with YAML syntax highlighting enabled
+- Sample YAML files pre-created in workspace:
+  - `syntax-practice.yml` (empty stub for Module 02)
+  - `data-types-practice.yml` (empty stub for Module 03)
+  - `practice.yaml` (empty stub for Module 04)
+  - `broken.yml` (intentionally broken with multiple error types for Module 05)
+  - `apache-playbook.yml` (valid Ansible playbook for Module 06)
+- Simple Ansible inventory configured for localhost execution
 
 ## Infrastructure Requirements
 

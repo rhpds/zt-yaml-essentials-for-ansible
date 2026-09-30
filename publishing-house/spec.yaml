@@ -7,19 +7,22 @@ project:
   showroom_type: zero_touch
   intake_type: new
   automation_type: ansible
-  description: This lab teaches you the basics of YAML, a simple yet powerful data
-    serialization language. It includes practical examples of how YAML is used within
-    Ansible. No prior knowledge of YAML or Ansible is required. By the end of this
-    lab, you will have a foundation in YAML and an understanding of how it applies
-    to Ansible.
+  description: This learning path teaches you the basics of YAML, a simple yet powerful
+    data serialization language essential for Red Hat Ansible Automation Platform.
+    It includes practical examples of how YAML is used to write Ansible configurations,
+    tasks, and Playbooks. No prior knowledge of YAML or Ansible is required. By the
+    end of this learning path, you will have a foundation in YAML and an understanding
+    of how it applies to Red Hat Ansible Automation Platform automation.
   jira_ticket: ''
   workflow_id: 54218878-abdc-4f6c-9c6f-8343fe3b0276
 spec:
   title: YAML Essentials for Ansible
   learning_objectives:
-  - Create valid YAML files following proper syntax and indentation rules
-  - Write YAML dictionaries, lists, and scalars in Ansible playbooks
-  - Troubleshoot YAML syntax errors in Ansible configurations
+  - Create valid YAML files following proper syntax and indentation rules for Red
+    Hat Ansible Automation Platform
+  - Write YAML dictionaries, lists, and scalars in Ansible Playbooks
+  - Troubleshoot YAML syntax errors in Ansible Automation Platform configurations
+    using yamllint
   modules:
   - id: module-01
     title: Why YAML? Introduction and advantages
