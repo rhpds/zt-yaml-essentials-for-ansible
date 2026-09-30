@@ -8,5 +8,7 @@ nav:
   - Module 2 - Syntax Basics: modules/module-02-syntax-basics.md
   - Module 3 - Data Types: modules/module-03-data-types.md
   - Module 4 - Hands On Practice: modules/module-04-hands-on-practice.md
+  - Module 5 - Fix Broken Yaml: modules/module-05-fix-broken-yaml.md
+  - Module 6 - Validate and Run Playbooks: modules/module-06-validate-run-playbooks.md
 plugins:
 - techdocs-core
