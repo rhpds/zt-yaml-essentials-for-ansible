@@ -3,10 +3,15 @@
   hosts: localhost
   gather_facts: true
   vars:
-    student_user: "{{ lookup('env', 'USER') | default('devspaces', true) }}"
-    student_home: "/home/{{ student_user }}"
+    workspace_dir: "{{ lookup('env', 'HOME') | default('/workspace', true) }}"
 
   tasks:
+    - name: Ensure workspace directory exists
+      ansible.builtin.file:
+        path: "{{ workspace_dir }}"
+        state: directory
+        mode: '0755'
+
     - name: Install yamllint
       ansible.builtin.package:
         name: yamllint
@@ -23,7 +28,7 @@
 
     - name: Create yamllint config with beginner-friendly rules
       ansible.builtin.copy:
-        dest: "{{ student_home }}/.yamllint"
+        dest: "{{ workspace_dir }}/.yamllint"
         content: |
           extends: default
           rules:
@@ -33,42 +38,34 @@
               spaces: 2
             document-start: require
         mode: '0644'
-        owner: "{{ student_user }}"
-        group: "{{ student_user }}"
 
     - name: Create syntax-practice.yml stub (Module 02)
       ansible.builtin.copy:
-        dest: "{{ student_home }}/syntax-practice.yml"
+        dest: "{{ workspace_dir }}/syntax-practice.yml"
         content: |
           ---
 
         mode: '0644'
-        owner: "{{ student_user }}"
-        group: "{{ student_user }}"
 
     - name: Create data-types-practice.yml stub (Module 03)
       ansible.builtin.copy:
-        dest: "{{ student_home }}/data-types-practice.yml"
+        dest: "{{ workspace_dir }}/data-types-practice.yml"
         content: |
           ---
 
         mode: '0644'
-        owner: "{{ student_user }}"
-        group: "{{ student_user }}"
 
     - name: Create practice.yaml stub (Module 04)
       ansible.builtin.copy:
-        dest: "{{ student_home }}/practice.yaml"
+        dest: "{{ workspace_dir }}/practice.yaml"
         content: |
           ---
 
         mode: '0644'
-        owner: "{{ student_user }}"
-        group: "{{ student_user }}"
 
     - name: Create broken.yml with intentional errors (Module 05)
       ansible.builtin.copy:
-        dest: "{{ student_home }}/broken.yml"
+        dest: "{{ workspace_dir }}/broken.yml"
         content: |
           name:value
           description: "This file has multiple YAML syntax errors for practice"
@@ -80,12 +77,10 @@
           missing_doc_start: true
           this_line_is_intentionally_way_too_long_to_exceed_the_recommended_line_length_limit_of_120_characters_which_should_trigger_a_yamllint_warning
         mode: '0644'
-        owner: "{{ student_user }}"
-        group: "{{ student_user }}"
 
     - name: Create apache-playbook.yml (Module 06)
       ansible.builtin.copy:
-        dest: "{{ student_home }}/apache-playbook.yml"
+        dest: "{{ workspace_dir }}/apache-playbook.yml"
         content: |
           ---
           - name: Install and configure Apache web server
@@ -111,23 +106,19 @@
                   immediate: true
                 when: ansible_os_family == "RedHat"
         mode: '0644'
-        owner: "{{ student_user }}"
-        group: "{{ student_user }}"
 
     - name: Create simple Ansible inventory for localhost
       ansible.builtin.copy:
-        dest: "{{ student_home }}/inventory"
+        dest: "{{ workspace_dir }}/inventory"
         content: |
           [local]
           localhost ansible_connection=local
         mode: '0644'
-        owner: "{{ student_user }}"
-        group: "{{ student_user }}"
 
     - name: Display setup completion message
       ansible.builtin.debug:
         msg: |
           YAML Essentials lab environment ready!
           - yamllint installed and configured
-          - Practice YAML files created in {{ student_home }}
+          - Practice YAML files created in {{ workspace_dir }}
           - Ready to start Module 01
