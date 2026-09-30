@@ -31,7 +31,7 @@ spec:
   - id: module-02
     title: YAML syntax basics - files, indentation, case sensitivity
     duration_min: 12
-    status: not_started
+    status: in_progress
   - id: module-03
     title: YAML data types - dictionaries, lists, scalars, comments
     duration_min: 12
