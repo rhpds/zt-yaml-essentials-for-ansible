@@ -1,14 +1,31 @@
 ---
-# SOLVE — Module 1
-# Standalone playbook mode (no main.yml required).
-# Runs when the learner clicks the "Solve" button.
-# Should perform all steps the learner would do manually.
+# Module 1 Solve - Ensures webserver.yml exists with minimal playbook
 
-- name: "Module 1 Solve"
+- name: Module 1 Solve
   hosts: localhost
   connection: local
   gather_facts: false
+  become: true
+  become_user: rhel
   tasks:
-    - name: "TODO: Implement solve logic"
+    - name: Check if webserver.yml exists
+      ansible.builtin.stat:
+        path: /home/rhel/yaml-practice/webserver.yml
+      register: webserver_file
+
+    - name: Create webserver.yml if missing
+      ansible.builtin.copy:
+        dest: /home/rhel/yaml-practice/webserver.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          ---
+          - name: Configure web server
+            hosts: localhost
+            become: true
+      when: not webserver_file.stat.exists
+
+    - name: Report success
       ansible.builtin.debug:
-        msg: "Replace this task with your solve implementation"
+        msg: "✓ webserver.yml exists - Module 1 complete!"

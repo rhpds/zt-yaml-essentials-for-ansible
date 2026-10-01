@@ -1,14 +1,67 @@
 ---
-# SOLVE — Module 7
-# Standalone playbook mode (no main.yml required).
-# Runs when the learner clicks the "Solve" button.
-# Should perform all steps the learner would do manually.
+# Module 7 Solve - Adds variables section and updates tasks
 
-- name: "Module 7 Solve"
+- name: Module 7 Solve
   hosts: localhost
   connection: local
   gather_facts: false
+  become: true
+  become_user: rhel
   tasks:
-    - name: "TODO: Implement solve logic"
+    - name: Check if vars section exists
+      ansible.builtin.shell: grep -q "vars:" /home/rhel/yaml-practice/webserver.yml
+      register: vars_check
+      failed_when: false
+      changed_when: false
+
+    - name: Add variables section and update tasks
+      ansible.builtin.copy:
+        dest: /home/rhel/yaml-practice/webserver.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          # This playbook configures a basic Apache web server on localhost
+          # Tested on RHEL 9
+
+          ---
+          - name: Configure web server
+            hosts: localhost
+            become: true
+
+            vars:
+              web_package: httpd
+              web_service: httpd
+              web_port: 80
+              start_on_boot: yes
+              index_content: "Welcome to my web server!"
+
+            tasks:
+              # Package installation
+              - name: Install web server package
+                ansible.builtin.package:
+                  name: "{{ web_package }}"
+
+              # Service management
+              - name: Start web server
+                ansible.builtin.service:
+                  name: "{{ web_service }}"
+                  state: started
+
+              - name: Enable web server on boot
+                ansible.builtin.service:
+                  name: "{{ web_service }}"
+                  enabled: "{{ start_on_boot }}"
+
+              # Content deployment
+              - name: Create custom home page
+                ansible.builtin.copy:
+                  dest: /var/www/html/index.html
+                  content: "{{ index_content }}"
+                  owner: apache
+                  mode: '0644'  # Quoted to prevent YAML from interpreting as octal
+      when: vars_check.rc != 0
+
+    - name: Report success
       ansible.builtin.debug:
-        msg: "Replace this task with your solve implementation"
+        msg: "✓ Variables section added - Module 7 complete!"

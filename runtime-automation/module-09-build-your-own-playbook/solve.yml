@@ -1,14 +1,61 @@
 ---
-# SOLVE — Module 9
-# Standalone playbook mode (no main.yml required).
-# Runs when the learner clicks the "Solve" button.
-# Should perform all steps the learner would do manually.
+# Module 9 Solve - Creates complete database.yml solution
 
-- name: "Module 9 Solve"
+- name: Module 9 Solve
   hosts: localhost
   connection: local
   gather_facts: false
+  become: true
+  become_user: rhel
   tasks:
-    - name: "TODO: Implement solve logic"
+    - name: Create complete database.yml solution
+      ansible.builtin.copy:
+        dest: /home/rhel/yaml-practice/database.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          # PostgreSQL Database Server Configuration
+          # Configures a basic PostgreSQL installation on RHEL 9
+
+          ---
+          - name: Configure PostgreSQL database server
+            hosts: localhost
+            become: true
+
+            vars:
+              db_package: postgresql
+              db_service: postgresql
+              db_port: 5432
+              enable_on_boot: yes
+
+            tasks:
+              # Package installation
+              - name: Install PostgreSQL package
+                ansible.builtin.package:
+                  name: "{{ db_package }}"
+
+              - name: Install PostgreSQL server package
+                ansible.builtin.package:
+                  name: postgresql-server
+
+              # Database initialization
+              - name: Initialize PostgreSQL database
+                ansible.builtin.command:
+                  cmd: postgresql-setup --initdb
+                  creates: /var/lib/pgsql/data/PG_VERSION
+
+              # Service management
+              - name: Start PostgreSQL service
+                ansible.builtin.service:
+                  name: "{{ db_service }}"
+                  state: started
+
+              - name: Enable PostgreSQL on boot
+                ansible.builtin.service:
+                  name: "{{ db_service }}"
+                  enabled: "{{ enable_on_boot }}"
+
+    - name: Report success
       ansible.builtin.debug:
-        msg: "Replace this task with your solve implementation"
+        msg: "✓ Complete database.yml solution created - Module 9 complete!"

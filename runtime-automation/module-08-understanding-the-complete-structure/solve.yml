@@ -1,14 +1,22 @@
 ---
-# SOLVE — Module 8
-# Standalone playbook mode (no main.yml required).
-# Runs when the learner clicks the "Solve" button.
-# Should perform all steps the learner would do manually.
+# Module 8 Solve - Verification only (read-only module)
 
-- name: "Module 8 Solve"
+- name: Module 8 Solve
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
-    - name: "TODO: Implement solve logic"
+    - name: Check if annotated file exists
+      ansible.builtin.stat:
+        path: /home/rhel/yaml-practice/webserver-annotated.yml
+      register: annotated_file
+
+    - name: Report success
       ansible.builtin.debug:
-        msg: "Replace this task with your solve implementation"
+        msg: "✓ webserver-annotated.yml exists - Module 8 is a visualization module, no solve needed!"
+      when: annotated_file.stat.exists
+
+    - name: Report error if missing
+      ansible.builtin.fail:
+        msg: "ERROR: webserver-annotated.yml missing - should have been created by setup"
+      when: not annotated_file.stat.exists
