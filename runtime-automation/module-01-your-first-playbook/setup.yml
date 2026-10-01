@@ -2,12 +2,28 @@
 # SETUP — Module 1
 # Standalone playbook mode (no main.yml required).
 # Runs before the module starts to prepare the environment.
+# Creates the initial webserver.yml file for learners to start with.
 
 - name: "Module 1 Setup"
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
-    - name: "TODO: Implement setup logic"
-      ansible.builtin.debug:
-        msg: "Replace this task with your setup implementation"
+    - name: "Create yaml-practice directory"
+      ansible.builtin.file:
+        path: /home/rhel/yaml-practice
+        state: directory
+        owner: rhel
+        group: rhel
+        mode: '0755'
+
+    - name: "Create initial webserver.yml playbook"
+      ansible.builtin.copy:
+        dest: /home/rhel/yaml-practice/webserver.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          ---
+          - name: Configure web server
+            hosts: localhost
