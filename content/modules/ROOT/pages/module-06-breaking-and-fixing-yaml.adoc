@@ -7,9 +7,60 @@ Debug common YAML syntax errors.
 
 YAML is strict about syntax. A missing space, wrong indentation, or tab character will cause errors. The good news: error messages tell you exactly where the problem is, and most fixes are simple once you know what to look for.
 
+== Installing a YAML Linter
+
+Before we break YAML files, let's install a professional tool that catches syntax errors: `yamllint`.
+
+A linter is a program that analyzes code for errors and style issues. `yamllint` is specifically designed for YAML files and is widely used in DevOps workflows.
+
+=== Install yamllint
+
+In the VS Code terminal, run:
+
+[source,bash]
+----
+sudo dnf install -y yamllint
+----
+
+This installs yamllint from the Red Hat Enterprise Linux repositories.
+
+=== Configure yamllint
+
+Create a configuration file to customize how yamllint checks your files:
+
+[source,bash]
+----
+cat > ~/.yamllint <<'EOF'
+extends: default
+rules:
+  line-length:
+    max: 120
+  indentation:
+    spaces: 2
+  document-start: require
+EOF
+----
+
+This configuration:
+
+* Sets maximum line length to 120 characters
+* Requires 2-space indentation
+* Requires `---` document start marker
+
+=== Test yamllint
+
+Check your existing playbook:
+
+[source,bash]
+----
+yamllint webserver.yml
+----
+
+If the file is valid, you'll see no output. If there are issues, yamllint shows exactly where they are.
+
 == Common YAML Errors
 
-You'll practice fixing four common errors:
+You'll practice fixing four common errors using both yamllint and Ansible error messages:
 
 1. *Indentation Error*: Task indented too far
 2. *Missing Quotes*: Octal number interpretation
@@ -28,14 +79,25 @@ Open `webserver-broken-A.yml`:
         name: httpd
 ----
 
-Try to run it:
+First, check with yamllint:
+
+[source,bash]
+----
+yamllint webserver-broken-A.yml
+----
+
+*yamllint output*: Shows exactly which line has incorrect indentation.
+
+Now try to run it:
 
 [source,bash]
 ----
 ansible-playbook webserver-broken-A.yml
 ----
 
-*Error message*: You'll see a YAML parsing error pointing to the indentation issue.
+*Ansible error message*: You'll see a YAML parsing error pointing to the indentation issue.
+
+*Pro tip*: yamllint catches errors faster than running the playbook!
 
 *Fix*: The task dash should align with `tasks:` content, not be indented further. Correct version:
 
@@ -124,6 +186,9 @@ Open `webserver-broken-D.yml`:
 |===
 |Skill |How to use it
 
+|yamllint
+|Run before ansible-playbook to catch syntax errors instantly
+
 |Read error messages
 |They point to the line and type of problem
 
@@ -144,11 +209,14 @@ Open `webserver-broken-D.yml`:
 
 When you hit a YAML error:
 
-1. *Read the error message* - line number is usually accurate
-2. *Check indentation* - count spaces, ensure consistency
-3. *Look for missing dashes* - all list items need them
-4. *Check for tabs* - show whitespace in editor
-5. *Consider quoting* - when in doubt, quote it
+1. *Run yamllint first* - catches syntax errors before running the playbook
+2. *Read the error message* - line number is usually accurate
+3. *Check indentation* - count spaces, ensure consistency
+4. *Look for missing dashes* - all list items need them
+5. *Check for tabs* - show whitespace in editor
+6. *Consider quoting* - when in doubt, quote it
+
+*Best practice*: Make yamllint part of your workflow. Run it every time before `ansible-playbook`.
 
 == What's Next?
 

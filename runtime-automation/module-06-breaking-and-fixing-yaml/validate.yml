@@ -1,20 +1,48 @@
 ---
 # VALIDATE — Module 6
-# Standalone playbook mode (no main.yml required).
-# Runs when the learner clicks the "Validate" button.
-# Should check that all module tasks were completed correctly.
-#
-# Use the validation_check module to report pass/fail with messages:
-#   validation_check:
-#     check: "{{ condition }}"
-#     pass_msg: "Task completed successfully"
-#     error_msg: "Task not completed — see instructions above"
+# Verifies yamllint installation and YAML file fixes
 
 - name: "Module 6 Validation"
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
-    - name: "TODO: Implement validation checks"
-      ansible.builtin.debug:
-        msg: "Replace this task with your validation implementation"
+    - name: Check if yamllint is installed
+      ansible.builtin.command: which yamllint
+      register: yamllint_check
+      changed_when: false
+      failed_when: false
+
+    - name: Validate yamllint is installed
+      validation_check:
+        check: "{{ yamllint_check.rc == 0 }}"
+        pass_msg: "✓ yamllint is installed"
+        error_msg: "✗ yamllint not found — run: sudo dnf install -y yamllint"
+
+    - name: Check if yamllint config exists
+      ansible.builtin.stat:
+        path: /home/rhel/.yamllint
+      register: yamllint_config
+
+    - name: Validate yamllint config exists
+      validation_check:
+        check: "{{ yamllint_config.stat.exists }}"
+        pass_msg: "✓ yamllint configuration file exists"
+        error_msg: "✗ Create ~/.yamllint config as shown in the module"
+
+    - name: Check if broken YAML files exist
+      ansible.builtin.stat:
+        path: "/home/rhel/yaml-practice/{{ item }}"
+      register: broken_files
+      loop:
+        - webserver-broken-A.yml
+        - webserver-broken-B.yml
+        - webserver-broken-C.yml
+        - webserver-broken-D.yml
+
+    - name: Validate all broken files have been created/fixed
+      validation_check:
+        check: "{{ item.stat.exists }}"
+        pass_msg: "✓ {{ item.item }} exists"
+        error_msg: "✗ {{ item.item }} not found in yaml-practice directory"
+      loop: "{{ broken_files.results }}"

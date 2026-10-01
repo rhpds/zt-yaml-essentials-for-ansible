@@ -1,7 +1,33 @@
 ---
-# Module 6 Solve - Fixes all four broken YAML files
+# Module 6 Solve - Installs yamllint and fixes all four broken YAML files
 
 - name: Module 6 Solve
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Install yamllint
+      ansible.builtin.dnf:
+        name: yamllint
+        state: present
+
+    - name: Create yamllint config
+      ansible.builtin.copy:
+        dest: /home/rhel/.yamllint
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          extends: default
+          rules:
+            line-length:
+              max: 120
+            indentation:
+              spaces: 2
+            document-start: require
+
+- name: Fix broken YAML files
   hosts: localhost
   connection: local
   gather_facts: false

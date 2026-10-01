@@ -24,26 +24,8 @@ echo "=== Starting YAML Essentials Lab Setup on host1 ==="
 echo "Creating workspace directory..."
 install -d -o "${LAB_USER}" -g "${LAB_USER}" -m 0755 "${WORKSPACE}"
 
-# Check if yamllint is available
-echo "Checking yamllint..."
-if ! command -v yamllint >/dev/null 2>&1; then
-  echo "WARNING: yamllint not found, attempting to install..."
-  dnf install -y yamllint || echo "Could not install yamllint - will skip"
-fi
-
-# Create yamllint config with beginner-friendly rules
-echo "Creating yamllint config..."
-install -d -o "${LAB_USER}" -g "${LAB_USER}" -m 0700 "${LAB_HOME}"
-cat > "${LAB_HOME}/.yamllint" <<'EOF'
-extends: default
-rules:
-  line-length:
-    max: 120
-  indentation:
-    spaces: 2
-  document-start: require
-EOF
-chown "${LAB_USER}:${LAB_USER}" "${LAB_HOME}/.yamllint"
+# yamllint installation moved to Module 6 as a learning exercise
+# Learners will install and configure yamllint as part of the debugging module
 
 # Create practice YAML files for specific exercises
 echo "Creating initial practice files for Module 1..."
@@ -147,7 +129,6 @@ echo ""
 echo "=========================================="
 echo "Setup Complete at $(date)"
 echo "=========================================="
-echo "- yamllint: $(which yamllint || echo 'NOT FOUND')"
 echo "- code-server: $(which code-server || echo 'NOT FOUND')"
 echo "- code-server running with NO authentication (auth: none)"
 echo "- code-server accessible at http://localhost:8080"
@@ -157,6 +138,7 @@ echo "Initial file created in ${WORKSPACE}:"
 echo "  - webserver.yml (Module 1 starting point)"
 echo ""
 echo "Additional files will be created as you progress through modules"
+echo "You will install yamllint as part of Module 6 (Breaking and Fixing YAML)"
 echo ""
 echo "- Logs saved to /var/log/setup-host1.log"
 echo "=========================================="
