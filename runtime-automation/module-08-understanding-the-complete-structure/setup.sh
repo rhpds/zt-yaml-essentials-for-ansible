@@ -1,0 +1,58 @@
+#!/bin/bash
+# Module 8 Setup - Creates annotated playbook with visual structure guides
+
+WORKSPACE="/home/rhel/yaml-practice"
+LAB_USER="rhel"
+
+echo "Creating annotated playbook for Module 8..."
+
+cat > "${WORKSPACE}/webserver-annotated.yml" <<'EOF'
+# ┌─── YAML document starts
+# │
+---
+# │
+# ├─── Play (list item, note the dash)
+# │
+- name: Configure web server          # ← Level 0: Play metadata
+  hosts: localhost                    # ← Level 0: Play metadata
+
+  # ├─── Variables dictionary
+  vars:                               # ← Level 1: Play key
+    web_package: httpd                # ← Level 2: Variable key-value
+    web_service: httpd                # ← Level 2: Variable key-value
+    web_port: 80                      # ← Level 2: Variable key-value
+    start_on_boot: yes                # ← Level 2: Variable key-value
+    index_content: "Welcome to my web server!"  # ← Level 2: Variable key-value
+
+  # ├─── Tasks list
+  tasks:                              # ← Level 1: Play key
+    # │
+    # ├─── Task 1 (list item)
+    - name: Install web server        # ← Level 2: Task metadata
+      ansible.builtin.package:        # ← Level 2: Module name
+        name: "{{ web_package }}"     # ← Level 3: Module parameter
+    # │
+    # ├─── Task 2 (list item)
+    - name: Start web server          # ← Level 2: Task metadata
+      ansible.builtin.service:        # ← Level 2: Module name
+        name: "{{ web_service }}"     # ← Level 3: Module parameter
+        state: started                # ← Level 3: Module parameter
+    # │
+    # ├─── Task 3 (list item)
+    - name: Enable web server on boot # ← Level 2: Task metadata
+      ansible.builtin.service:        # ← Level 2: Module name
+        name: "{{ web_service }}"     # ← Level 3: Module parameter
+        enabled: "{{ start_on_boot }}" # ← Level 3: Module parameter
+    # │
+    # └─── Task 4 (list item)
+    - name: Create custom home page   # ← Level 2: Task metadata
+      ansible.builtin.copy:           # ← Level 2: Module name
+        dest: /var/www/html/index.html  # ← Level 3: Module parameter
+        content: "{{ index_content }}" # ← Level 3: Module parameter
+        owner: apache                 # ← Level 3: Module parameter
+        mode: '0644'                  # ← Level 3: Module parameter
+EOF
+
+chown "${LAB_USER}:${LAB_USER}" "${WORKSPACE}/webserver-annotated.yml"
+
+echo "Created webserver-annotated.yml with structure visualization"
