@@ -15,6 +15,7 @@ if [ ! -f "${WORKSPACE}/webserver.yml" ]; then
 ---
 - name: Configure web server
   hosts: localhost
+  become: true
 EOF
   chown "${LAB_USER}:${LAB_USER}" "${WORKSPACE}/webserver.yml"
 fi

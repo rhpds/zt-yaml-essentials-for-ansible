@@ -19,6 +19,7 @@ else
 ---
 - name: Configure web server
   hosts: localhost
+  become: true
 
   vars:
     web_package: httpd

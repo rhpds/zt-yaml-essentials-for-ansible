@@ -53,6 +53,7 @@ cat > "${WORKSPACE}/webserver.yml" <<'EOF'
 ---
 - name: Configure web server
   hosts: localhost
+  become: true
 EOF
 
 # Set ownership on workspace

@@ -32,15 +32,17 @@ Open the file `webserver.yml` in VSCode. You'll see:
 ---
 - name: Configure web server
   hosts: localhost
+  become: true
 ----
 
 Let's break down what this means:
 
 * `---` marks the start of a YAML document
 * `- name: Configure web server` is a *play* (note the dash)
-* `name:` and `hosts:` are *key-value pairs*
+* `name:`, `hosts:`, and `become:` are *key-value pairs*
 * The colon must be followed by a space
-* Indentation matters! `hosts:` is indented under the play
+* Indentation matters! `hosts:` and `become:` are indented under the play
+* `become: true` tells Ansible to run with elevated privileges (like sudo)
 
 == Run the Playbook
 

@@ -16,6 +16,7 @@ else
 ---
 - name: Configure web server
   hosts: localhost
+  become: true
 
   tasks:
     - name: Install web server package

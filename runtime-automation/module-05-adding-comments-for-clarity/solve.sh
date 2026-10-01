@@ -19,6 +19,7 @@ else
 ---
 - name: Configure web server
   hosts: localhost
+  become: true
 
   tasks:
     # Package installation

@@ -13,6 +13,7 @@ cat > "${WORKSPACE}/database.yml" <<'EOF'
 ---
 - name: Configure PostgreSQL database server
   hosts: localhost
+  become: true
 
   vars:
     db_package: postgresql
