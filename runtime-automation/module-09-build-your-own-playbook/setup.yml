@@ -1,13 +1,12 @@
 ---
-# SETUP — Module 9
-# Creates the database.yml template with scaffolding comments for independent work.
-
-- name: "Module 9 Setup"
+- name: Module 9 Setup
   hosts: localhost
   connection: local
   gather_facts: false
+  become: true
+  become_user: rhel
   tasks:
-    - name: "Create database.yml template for independent challenge"
+    - name: Create database.yml template for independent challenge
       ansible.builtin.copy:
         dest: /home/rhel/yaml-practice/database.yml
         owner: rhel
@@ -35,7 +34,7 @@
           ---
           # Your YAML starts here
 
-    - name: "Create solutions directory"
+    - name: Create solutions directory
       ansible.builtin.file:
         path: /home/rhel/solutions
         state: directory
@@ -43,7 +42,7 @@
         group: rhel
         mode: '0755'
 
-    - name: "Create database solution file (hidden from learners initially)"
+    - name: Create database solution file
       ansible.builtin.copy:
         dest: /home/rhel/solutions/database-solution.yml
         owner: rhel
@@ -56,6 +55,7 @@
           ---
           - name: Configure PostgreSQL database server
             hosts: localhost
+            become: true
 
             vars:
               db_package: postgresql

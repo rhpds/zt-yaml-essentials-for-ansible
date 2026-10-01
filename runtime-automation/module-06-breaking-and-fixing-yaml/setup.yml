@@ -1,13 +1,14 @@
 ---
-# SETUP — Module 6
-# Creates four intentionally broken YAML files for debugging practice.
+# Module 6 Setup - Creates four intentionally broken YAML files for debugging practice
 
-- name: "Module 6 Setup"
+- name: Module 6 Setup
   hosts: localhost
   connection: local
   gather_facts: false
+  become: true
+  become_user: rhel
   tasks:
-    - name: "Create webserver-broken-A.yml (indentation error)"
+    - name: Create webserver-broken-A.yml (indentation error)
       ansible.builtin.copy:
         dest: /home/rhel/yaml-practice/webserver-broken-A.yml
         owner: rhel
@@ -23,7 +24,7 @@
                 ansible.builtin.package:
                   name: httpd
 
-    - name: "Create webserver-broken-B.yml (missing quotes)"
+    - name: Create webserver-broken-B.yml (missing quotes)
       ansible.builtin.copy:
         dest: /home/rhel/yaml-practice/webserver-broken-B.yml
         owner: rhel
@@ -41,7 +42,7 @@
                   content: "Welcome!"
                   mode: 0644  # Should be '0644'
 
-    - name: "Create webserver-broken-C.yml (missing list dash)"
+    - name: Create webserver-broken-C.yml (missing list dash)
       ansible.builtin.copy:
         dest: /home/rhel/yaml-practice/webserver-broken-C.yml
         owner: rhel
@@ -62,10 +63,18 @@
                 name: httpd
                 state: started
 
-    - name: "Create webserver-broken-D.yml (tab character - using literal tab)"
-      ansible.builtin.copy:
-        dest: /home/rhel/yaml-practice/webserver-broken-D.yml
-        owner: rhel
-        group: rhel
-        mode: '0644'
-        content: "---\n- name: Configure web server\n  hosts: localhost\n\n  tasks:\n\t- name: Install web server  # Tab character instead of spaces\n      ansible.builtin.package:\n        name: httpd\n"
+    - name: Create webserver-broken-D.yml (tab character - using shell to insert literal tab)
+      ansible.builtin.shell: |
+        printf '%s\n' \
+          '---' \
+          '- name: Configure web server' \
+          '  hosts: localhost' \
+          '' \
+          '  tasks:' \
+          $'\t- name: Install web server  # Tab character instead of spaces' \
+          '      ansible.builtin.package:' \
+          '        name: httpd' \
+          > /home/rhel/yaml-practice/webserver-broken-D.yml
+        chown rhel:rhel /home/rhel/yaml-practice/webserver-broken-D.yml
+      args:
+        creates: /home/rhel/yaml-practice/webserver-broken-D.yml

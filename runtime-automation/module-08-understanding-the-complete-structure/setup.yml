@@ -1,13 +1,12 @@
 ---
-# SETUP — Module 8
-# Creates the complete annotated playbook with visual structure guides.
-
-- name: "Module 8 Setup"
+- name: Module 8 Setup
   hosts: localhost
   connection: local
   gather_facts: false
+  become: true
+  become_user: rhel
   tasks:
-    - name: "Create webserver-annotated.yml with structure annotations"
+    - name: Create webserver-annotated.yml with structure annotations
       ansible.builtin.copy:
         dest: /home/rhel/yaml-practice/webserver-annotated.yml
         owner: rhel
@@ -22,6 +21,7 @@
           # │
           - name: Configure web server          # ← Level 0: Play metadata
             hosts: localhost                    # ← Level 0: Play metadata
+            become: true                        # ← Level 0: Play metadata
 
             # ├─── Variables dictionary
             vars:                               # ← Level 1: Play key
