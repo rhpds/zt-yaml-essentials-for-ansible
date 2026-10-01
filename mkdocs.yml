@@ -4,11 +4,14 @@ nav:
 - Home: index.md
 - Design Spec: design.md
 - Modules:
-  - Module 1 - Why Yaml: modules/module-01-why-yaml.md
-  - Module 2 - Syntax Basics: modules/module-02-syntax-basics.md
-  - Module 3 - Data Types: modules/module-03-data-types.md
-  - Module 4 - Hands On Practice: modules/module-04-hands-on-practice.md
-  - Module 5 - Fix Broken Yaml: modules/module-05-fix-broken-yaml.md
-  - Module 6 - Validate and Run Playbooks: modules/module-06-validate-run-playbooks.md
+  - Module 1 - Your First Playbook: modules/module-01-your-first-playbook.md
+  - Module 2 - Adding Your First Task with a List: modules/module-02-adding-your-first-task-with-a-list.md
+  - Module 3 - Adding More Tasks to the List: modules/module-03-adding-more-tasks-to-the-list.md
+  - Module 4 - Configuring Tasks with Dictionaries: modules/module-04-configuring-tasks-with-dictionaries.md
+  - Module 5 - Adding Comments for Clarity: modules/module-05-adding-comments-for-clarity.md
+  - Module 6 - Breaking and Fixing YAML: modules/module-06-breaking-and-fixing-yaml.md
+  - Module 7 - Using Variables and Different Data Types: modules/module-07-using-variables-and-different-data-types.md
+  - Module 8 - Understanding the Complete Structure: modules/module-08-understanding-the-complete-structure.md
+  - Module 9 - Build Your Own Playbook: modules/module-09-build-your-own-playbook.md
 plugins:
 - techdocs-core
