@@ -1,5 +1,97 @@
-= My Lab Title
+= YAML Essentials for Ansible
 
-This project was created with the RHDP Publishing House template.
+== Welcome
 
-Run `/rhdp-publishing-house` in Claude Code to begin.
+Welcome to *YAML Essentials for Ansible*! This hands-on learning path teaches you the foundations of YAML - the language that powers Red Hat Ansible Automation Platform automation.
+
+Whether you're new to automation or an experienced practitioner exploring Ansible for the first time, understanding YAML is your first step toward building powerful, readable automation.
+
+== What is Red Hat Ansible Automation Platform?
+
+Red Hat Ansible Automation Platform is an end-to-end automation platform for configuring systems, deploying software, and orchestrating advanced workflows. It includes the tools and resources necessary to create, manage, and scale automation across the entire enterprise.
+
+From simple configuration tasks to complex multi-tier application deployments, Ansible Automation Platform provides the foundation for infrastructure-as-code practices in modern IT environments.
+
+== Why YAML?
+
+Ansible Automation Platform uses YAML for content because it offers a straightforward, human-readable way to write Ansible configurations, tasks, and Playbooks.
+
+Unlike complex programming languages with semicolons, braces, and cryptic syntax, YAML is designed to be readable by humans. If you can read structured text, you can understand YAML - and that makes automation accessible to everyone, not just programmers.
+
+== What You'll Learn
+
+This learning path teaches you the basics of YAML through practical examples of how it's used within Ansible. *No prior knowledge of YAML or Ansible is required.*
+
+By the end of this learning path, you will:
+
+* Understand what YAML is and why Ansible uses it
+* Write valid YAML syntax (key-value pairs, lists, dictionaries)
+* Recognize and fix common YAML syntax errors
+* Read and understand the structure of Ansible playbooks
+* Build a complete Ansible playbook from scratch using proper YAML structure
+
+== How This Lab Works
+
+You'll learn by *doing*. Instead of reading about YAML in the abstract, you'll build a real Ansible playbook step-by-step:
+
+1. *Start simple*: Create a minimal playbook that does nothing (but is valid YAML)
+2. *Add tasks*: Learn YAML lists by adding automation tasks one at a time
+3. *Configure*: Use YAML dictionaries to provide detailed task parameters
+4. *Make it flexible*: Add variables and understand data types
+5. *Build independently*: Apply everything you've learned to create a new playbook from scratch
+
+Each module builds on the previous one. By the end, you'll have built two complete playbooks and gained the YAML knowledge needed to read and write any Ansible automation.
+
+== What You'll Build
+
+Throughout this lab, you'll build:
+
+* *A web server playbook*: Progressively construct a complete Apache web server configuration (Modules 1-8)
+* *A database server playbook*: Apply your knowledge independently to configure PostgreSQL (Module 9)
+
+Both are real, working Ansible playbooks that you can run and extend.
+
+== Prerequisites
+
+*None!* This lab is designed for complete beginners:
+
+* No YAML experience required
+* No Ansible experience required
+* No programming experience required
+
+All you need is curiosity and a willingness to learn by doing.
+
+== Lab Environment
+
+You'll work in a browser-accessible VSCode environment with:
+
+* RHEL 9 control node
+* Ansible pre-installed and configured
+* YAML syntax highlighting enabled
+* All necessary tools ready to use
+
+Everything runs in your browser - no installation or setup required.
+
+== Time to Complete
+
+This learning path takes approximately *50-60 minutes* to complete. You can pause at any time and resume where you left off.
+
+== Getting Help
+
+Throughout the lab:
+
+* Each module includes step-by-step instructions
+* Error messages will guide you when something goes wrong
+* Visual examples show proper YAML structure
+* Troubleshooting tips help you fix common mistakes
+
+== Let's Get Started
+
+Ready to learn YAML and start building Ansible automation?
+
+Click "Next" to begin with Module 1: Your First Playbook.
+
+[NOTE]
+====
+*Remember*: The goal isn't to memorize YAML rules - it's to understand the patterns. By the end of this lab, you'll be able to look at any Ansible playbook and understand its structure.
+====
