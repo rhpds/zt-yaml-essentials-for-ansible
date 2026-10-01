@@ -1,0 +1,91 @@
+---
+# SETUP — Module 9
+# Creates the database.yml template with scaffolding comments for independent work.
+
+- name: "Module 9 Setup"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: "Create database.yml template for independent challenge"
+      ansible.builtin.copy:
+        dest: /home/rhel/yaml-practice/database.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          # Your challenge: Configure a PostgreSQL database server
+          # Requirements:
+          #   1. Use variables for package name, service name, and port
+          #   2. Create 3-4 tasks (your choice from the list below)
+          #   3. Include comments explaining each section
+          #   4. Use proper YAML structure (indentation, lists, dictionaries)
+          #
+          # Suggested tasks (choose 3-4):
+          #   - Install postgresql package
+          #   - Install postgresql-server package
+          #   - Initialize the database (command: postgresql-setup --initdb)
+          #   - Start the postgresql service
+          #   - Enable postgresql service on boot
+          #   - Configure firewall to allow port 5432
+          #   - Create a custom configuration file
+          #
+          # Start your playbook below:
+
+          ---
+          # Your YAML starts here
+
+    - name: "Create solutions directory"
+      ansible.builtin.file:
+        path: /home/rhel/solutions
+        state: directory
+        owner: rhel
+        group: rhel
+        mode: '0755'
+
+    - name: "Create database solution file (hidden from learners initially)"
+      ansible.builtin.copy:
+        dest: /home/rhel/solutions/database-solution.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          # PostgreSQL Database Server Configuration
+          # Configures a basic PostgreSQL installation on RHEL 9
+
+          ---
+          - name: Configure PostgreSQL database server
+            hosts: localhost
+
+            vars:
+              db_package: postgresql
+              db_service: postgresql
+              db_port: 5432
+              enable_on_boot: yes
+
+            tasks:
+              # Package installation
+              - name: Install PostgreSQL package
+                ansible.builtin.package:
+                  name: "{{ db_package }}"
+
+              - name: Install PostgreSQL server package
+                ansible.builtin.package:
+                  name: postgresql-server
+
+              # Database initialization
+              - name: Initialize PostgreSQL database
+                ansible.builtin.command:
+                  cmd: postgresql-setup --initdb
+                  creates: /var/lib/pgsql/data/PG_VERSION
+
+              # Service management
+              - name: Start PostgreSQL service
+                ansible.builtin.service:
+                  name: "{{ db_service }}"
+                  state: started
+
+              - name: Enable PostgreSQL on boot
+                ansible.builtin.service:
+                  name: "{{ db_service }}"
+                  enabled: "{{ enable_on_boot }}"

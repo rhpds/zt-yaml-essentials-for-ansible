@@ -1,0 +1,71 @@
+---
+# SETUP — Module 6
+# Creates four intentionally broken YAML files for debugging practice.
+
+- name: "Module 6 Setup"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: "Create webserver-broken-A.yml (indentation error)"
+      ansible.builtin.copy:
+        dest: /home/rhel/yaml-practice/webserver-broken-A.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          ---
+          - name: Configure web server
+            hosts: localhost
+
+            tasks:
+                - name: Install web server package  # Indented too far
+                ansible.builtin.package:
+                  name: httpd
+
+    - name: "Create webserver-broken-B.yml (missing quotes)"
+      ansible.builtin.copy:
+        dest: /home/rhel/yaml-practice/webserver-broken-B.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          ---
+          - name: Configure web server
+            hosts: localhost
+
+            tasks:
+              - name: Create custom home page
+                ansible.builtin.copy:
+                  dest: /var/www/html/index.html
+                  content: "Welcome!"
+                  mode: 0644  # Should be '0644'
+
+    - name: "Create webserver-broken-C.yml (missing list dash)"
+      ansible.builtin.copy:
+        dest: /home/rhel/yaml-practice/webserver-broken-C.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: |
+          ---
+          - name: Configure web server
+            hosts: localhost
+
+            tasks:
+              - name: Install web server package
+                ansible.builtin.package:
+                  name: httpd
+
+              name: Start web server  # Missing dash
+              ansible.builtin.service:
+                name: httpd
+                state: started
+
+    - name: "Create webserver-broken-D.yml (tab character - using literal tab)"
+      ansible.builtin.copy:
+        dest: /home/rhel/yaml-practice/webserver-broken-D.yml
+        owner: rhel
+        group: rhel
+        mode: '0644'
+        content: "---\n- name: Configure web server\n  hosts: localhost\n\n  tasks:\n\t- name: Install web server  # Tab character instead of spaces\n      ansible.builtin.package:\n        name: httpd\n"
