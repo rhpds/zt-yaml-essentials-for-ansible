@@ -1,0 +1,139 @@
+= Module 8: Understanding the Complete Structure
+
+== Learning Objective
+Visualize the complete YAML hierarchy.
+
+== Introduction
+
+You've learned all the pieces - lists, dictionaries, indentation, comments, variables. Now let's see how they fit together in the complete playbook structure. Understanding this structure helps you read and write *any* Ansible playbook.
+
+== The Annotated Playbook
+
+Open `webserver-annotated.yml` to see the complete structure with visual guides:
+
+[source,yaml]
+----
+# ┌─── YAML document starts
+# │
+---
+# │
+# ├─── Play (list item, note the dash)
+# │
+- name: Configure web server          # ← Level 0: Play metadata
+  hosts: localhost                    # ← Level 0: Play metadata
+
+  # ├─── Variables dictionary
+  vars:                               # ← Level 1: Play key
+    web_package: httpd                # ← Level 2: Variable key-value
+    web_service: httpd                # ← Level 2: Variable key-value
+    web_port: 80                      # ← Level 2: Variable key-value
+    start_on_boot: yes                # ← Level 2: Variable key-value
+    index_content: "Welcome!"         # ← Level 2: Variable key-value
+
+  # ├─── Tasks list
+  tasks:                              # ← Level 1: Play key
+    # │
+    # ├─── Task 1 (list item)
+    - name: Install web server        # ← Level 2: Task metadata
+      ansible.builtin.package:        # ← Level 2: Module name
+        name: "{{ web_package }}"     # ← Level 3: Module parameter
+    # │
+    # ├─── Task 2 (list item)
+    - name: Start web server          # ← Level 2: Task metadata
+      ansible.builtin.service:        # ← Level 2: Module name
+        name: "{{ web_service }}"     # ← Level 3: Module parameter
+        state: started                # ← Level 3: Module parameter
+    # │
+    # └─── Pattern repeats...
+----
+
+== Understanding the Levels
+
+=== Level 0: The Play
+* Marked with a dash (it's a list item in the playbook)
+* Contains `name:` and `hosts:` at the top level
+
+=== Level 1: Play Properties
+* `vars:` - dictionary of variables
+* `tasks:` - list of tasks
+* These are indented under the play
+
+=== Level 2: Variables and Tasks
+* Under `vars:` - each variable is a key-value pair
+* Under `tasks:` - each task is a list item (note the dashes)
+
+=== Level 3: Task Details
+* Module parameters
+* Nested dictionaries
+
+== The Pattern: Lists of Dictionaries
+
+Most Ansible playbooks follow this pattern:
+
+1. *Playbook* contains a **list** of plays
+2. Each *play* is a **dictionary** with properties
+3. `tasks:` is a **list** of tasks
+4. Each *task* is a **dictionary** with a module and parameters
+5. Module parameters form a **dictionary**
+
+This "lists containing dictionaries" pattern repeats throughout YAML.
+
+== Identifying Lists vs Dictionaries
+
+When reading unfamiliar YAML:
+
+[cols="2,3"]
+|===
+|Look for |It's a...
+
+|Dashes at same indentation
+|List
+
+|Multiple key-value pairs at same indentation
+|Dictionary
+
+|Nested indentation
+|Parent-child relationship
+|===
+
+== Why This Structure Matters
+
+Understanding this structure helps you:
+
+* *Read* any Ansible playbook, even complex ones
+* *Predict* what comes next based on patterns
+* *Debug* errors by understanding expected structure
+* *Write* new playbooks using the same patterns
+
+== The Key Insight
+
+Every Ansible playbook follows this structure:
+
+[source,text]
+----
+Playbook
+  └─ Play (list)
+      ├─ name, hosts (dictionary)
+      ├─ vars (dictionary)
+      │   └─ variables (key-value pairs)
+      └─ tasks (list)
+          └─ task (dictionary)
+              ├─ name
+              └─ module (dictionary)
+                  └─ parameters (key-value pairs)
+----
+
+== What You've Mastered
+
+* YAML document structure (`---` marker)
+* Key-value pairs (dictionaries)
+* Lists (dash syntax)
+* Indentation (creates hierarchy)
+* Comments (documentation)
+* Variables (reusability)
+* Data types (string, number, boolean)
+* Nesting (parent-child relationships)
+
+== What's Next?
+
+You understand YAML structure. Now prove it by building your own playbook from scratch.

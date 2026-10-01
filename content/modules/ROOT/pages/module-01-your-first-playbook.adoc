@@ -1,0 +1,77 @@
+= Module 1: Your First Playbook
+
+== Learning Objective
+Run the simplest possible Ansible playbook and understand basic YAML structure.
+
+== What You'll Learn
+In this module, you will:
+
+* Understand what YAML is and why Ansible uses it
+* Recognize basic YAML file markers
+* Run your first Ansible playbook
+* Learn about key-value pairs and indentation
+
+== Introduction
+
+YAML (YAML Ain't Markup Language) is a human-readable data format that Ansible uses to define automation. Unlike complex programming languages, YAML is designed to be simple and intuitive - if you can read it, you can understand it.
+
+Ansible chose YAML because:
+
+* *Readability*: YAML looks like structured text, not code
+* *Simplicity*: No semicolons, braces, or complex syntax
+* *Structure*: Indentation shows relationships between items
+
+Let's start with the simplest possible playbook.
+
+== Your First Playbook
+
+Open the file `webserver.yml` in VSCode. You'll see:
+
+[source,yaml]
+----
+---
+- name: Configure web server
+  hosts: localhost
+----
+
+Let's break down what this means:
+
+* `---` marks the start of a YAML document
+* `- name: Configure web server` is a *play* (note the dash)
+* `name:` and `hosts:` are *key-value pairs*
+* The colon must be followed by a space
+* Indentation matters! `hosts:` is indented under the play
+
+== Run the Playbook
+
+In the terminal, run:
+
+[source,bash]
+----
+ansible-playbook webserver.yml
+----
+
+You'll see output that says "no tasks to run" - that's correct! This is valid YAML and a valid playbook, but it doesn't do anything yet.
+
+== YAML Concepts You've Learned
+
+[cols="1,3"]
+|===
+|Concept |What it means
+
+|`---`
+|Start of YAML document marker
+
+|Key-value pairs
+|`key: value` format with colon-space
+
+|Indentation
+|Shows parent-child relationships
+
+|Play
+|A list item (note the dash) that defines automation
+|===
+
+== What's Next?
+
+This play does nothing yet. Let's add tasks to make it useful.

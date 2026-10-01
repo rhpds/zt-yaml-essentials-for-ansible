@@ -1,0 +1,83 @@
+= Module 3: Adding More Tasks to the List
+
+== Learning Objective
+Grow the task list and understand execution order.
+
+== Introduction
+
+A single task is rarely enough for real automation. In this module, you'll add multiple tasks to the list and see how Ansible executes them in order.
+
+== Multiple List Items
+
+Add two more tasks to your playbook:
+
+[source,yaml]
+----
+  tasks:
+    - name: Install web server package
+      ansible.builtin.package:
+        name: httpd
+
+    - name: Start web server
+      ansible.builtin.service:
+        name: httpd
+        state: started
+
+    - name: Enable web server on boot
+      ansible.builtin.service:
+        name: httpd
+        enabled: yes
+----
+
+Key observations:
+
+* All three dashes line up at the same indentation level
+* Blank lines between tasks improve readability
+* Each task is independent but part of the same list
+* Tasks execute from top to bottom
+
+== Run and Observe Execution Order
+
+Run the playbook:
+
+[source,bash]
+----
+ansible-playbook webserver.yml
+----
+
+Watch the output carefully. You'll see:
+
+1. Install httpd package
+2. Start httpd service
+3. Enable httpd on boot
+
+The order matches the order in your YAML file - top to bottom.
+
+== Verify It Works
+
+Check that the web server is running:
+
+[source,bash]
+----
+curl localhost
+----
+
+You should see Apache's default page.
+
+== Why Order Matters
+
+The sequence *install → start → enable* makes logical sense:
+
+* Can't start a service that isn't installed
+* Can't enable a service that hasn't been started
+* Each task depends on the previous one succeeding
+
+== YAML Concepts Reinforced
+
+* Multiple list items at same indentation = same list
+* List order is preserved (execution order matches file order)
+* Consistent spacing makes lists readable
+
+== What's Next?
+
+Our tasks work, but they need more detailed configuration. Let's add parameters.

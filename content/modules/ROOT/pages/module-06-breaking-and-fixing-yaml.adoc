@@ -1,0 +1,155 @@
+= Module 6: Breaking and Fixing YAML
+
+== Learning Objective
+Debug common YAML syntax errors.
+
+== Introduction
+
+YAML is strict about syntax. A missing space, wrong indentation, or tab character will cause errors. The good news: error messages tell you exactly where the problem is, and most fixes are simple once you know what to look for.
+
+== Common YAML Errors
+
+You'll practice fixing four common errors:
+
+1. *Indentation Error*: Task indented too far
+2. *Missing Quotes*: Octal number interpretation
+3. *Missing List Dash*: Task not recognized as list item
+4. *Tab Character*: Spaces vs tabs confusion
+
+== Error Exercise A: Indentation Error
+
+Open `webserver-broken-A.yml`:
+
+[source,yaml]
+----
+  tasks:
+      - name: Install web server package  # Indented too far
+      ansible.builtin.package:
+        name: httpd
+----
+
+Try to run it:
+
+[source,bash]
+----
+ansible-playbook webserver-broken-A.yml
+----
+
+*Error message*: You'll see a YAML parsing error pointing to the indentation issue.
+
+*Fix*: The task dash should align with `tasks:` content, not be indented further. Correct version:
+
+[source,yaml]
+----
+  tasks:
+    - name: Install web server package  # Correct indentation
+      ansible.builtin.package:
+        name: httpd
+----
+
+== Error Exercise B: Missing Quotes
+
+Open `webserver-broken-B.yml`:
+
+[source,yaml]
+----
+    - name: Create custom home page
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: "Welcome!"
+        mode: 0644  # Should be '0644'
+----
+
+*What happens*: YAML interprets `0644` as octal 420 (decimal), not the string "0644" that Ansible expects.
+
+*Fix*: Add quotes:
+
+[source,yaml]
+----
+        mode: '0644'  # Quoted to force string type
+----
+
+== Error Exercise C: Missing List Dash
+
+Open `webserver-broken-C.yml`:
+
+[source,yaml]
+----
+  tasks:
+    - name: Install web server package
+      ansible.builtin.package:
+        name: httpd
+
+    name: Start web server  # Missing dash!
+    ansible.builtin.service:
+      name: httpd
+      state: started
+----
+
+*Error*: Second task missing the dash before `name:`.
+
+*Fix*: Every task in the list needs a dash:
+
+[source,yaml]
+----
+    - name: Start web server  # Dash added
+      ansible.builtin.service:
+        name: httpd
+        state: started
+----
+
+== Error Exercise D: Tab Character
+
+Open `webserver-broken-D.yml`:
+
+[source,yaml]
+----
+  tasks:
+→   - name: Install web server  # Tab character instead of spaces
+      ansible.builtin.package:
+        name: httpd
+----
+
+*Issue*: YAML doesn't allow tab characters - only spaces.
+
+*Fix in VSCode*:
+
+1. View → Toggle Render Whitespace (see the tab)
+2. Replace tab with spaces
+3. Turn off "Insert Spaces" to prevent future tabs
+
+== Debugging Skills You've Learned
+
+[cols="1,3"]
+|===
+|Skill |How to use it
+
+|Read error messages
+|They point to the line and type of problem
+
+|Count spaces
+|Use ruler or count to verify indentation
+
+|Show whitespace
+|See tabs vs spaces in editor
+
+|Check list syntax
+|Every list item needs a dash
+
+|Quote when needed
+|Numbers, special chars, Jinja2 variables
+|===
+
+== General Debugging Approach
+
+When you hit a YAML error:
+
+1. *Read the error message* - line number is usually accurate
+2. *Check indentation* - count spaces, ensure consistency
+3. *Look for missing dashes* - all list items need them
+4. *Check for tabs* - show whitespace in editor
+5. *Consider quoting* - when in doubt, quote it
+
+== What's Next?
+
+Now that you can fix YAML errors, let's make our playbook more flexible with variables.

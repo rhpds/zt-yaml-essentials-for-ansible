@@ -1,0 +1,108 @@
+= Module 4: Configuring Tasks with Dictionaries
+
+== Learning Objective
+Use nested dictionaries to add task parameters.
+
+== Introduction
+
+So far, our tasks have been simple - install a package, start a service. But real automation often needs detailed configuration. In YAML, we use *dictionaries* (key-value pairs) to provide multiple parameters to a task.
+
+== Dictionaries vs Lists
+
+* *Lists*: Multiple items, marked with dashes
+* *Dictionaries*: Multiple key-value pairs, no dashes
+
+Both use indentation to show structure.
+
+== Add a Task with Multiple Parameters
+
+Add this fourth task:
+
+[source,yaml]
+----
+    - name: Create custom home page
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: "Welcome to my web server!"
+        owner: apache
+        mode: '0644'
+----
+
+Notice:
+
+* Four parameters for the `copy` module
+* Each parameter is a key-value pair
+* All parameters indented under the module name
+* `mode:` value is quoted (we'll explain why shortly)
+
+== Run and Verify
+
+Run the playbook:
+
+[source,bash]
+----
+ansible-playbook webserver.yml
+----
+
+Then verify the file was created:
+
+[source,bash]
+----
+cat /var/www/html/index.html
+----
+
+You should see: "Welcome to my web server!"
+
+== Understanding Nesting Levels
+
+Your playbook now has multiple levels of nesting:
+
+[source,yaml]
+----
+- name: Configure web server    # Level 0: Play
+  hosts: localhost              # Level 0
+  tasks:                        # Level 1: Play key
+    - name: Create home page    # Level 2: Task (list item)
+      ansible.builtin.copy:     # Level 2: Module
+        dest: /path              # Level 3: Module parameter
+        content: "text"          # Level 3: Module parameter
+----
+
+Indentation creates parent-child relationships:
+
+* Module parameters belong to the module
+* Module belongs to the task
+* Task belongs to the tasks list
+* Tasks list belongs to the play
+
+== Why Quote '0644'?
+
+This is a common YAML gotcha:
+
+* Without quotes: `0644` → YAML interprets as octal number 420
+* With quotes: `'0644'` → String that Ansible expects
+
+When in doubt, quote values that start with numbers or special characters.
+
+== YAML Concepts You've Learned
+
+[cols="1,3"]
+|===
+|Concept |What it means
+
+|Dictionary
+|Multiple key-value pairs at same indentation
+
+|Nesting
+|Indentation creates parent-child relationships
+
+|Quoting
+|Force YAML to treat a value as a string
+
+|Multi-level structure
+|Play → tasks → task → module → parameters
+|===
+
+== What's Next?
+
+Our playbook works! Let's make it easier for others to understand with comments.

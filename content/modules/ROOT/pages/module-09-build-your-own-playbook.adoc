@@ -1,0 +1,137 @@
+= Module 9: Build Your Own Playbook
+
+== Learning Objective
+Independent application of all YAML concepts.
+
+== The Challenge
+
+Build a database server configuration playbook using everything you've learned. This is your chance to prove your YAML knowledge without step-by-step guidance.
+
+== Requirements
+
+Create a playbook that configures a PostgreSQL database server with these requirements:
+
+1. ✅ Use variables for package name, service name, and port
+2. ✅ Create 3-4 tasks (choose from suggested list below)
+3. ✅ Include comments explaining each section
+4. ✅ Use proper YAML structure (indentation, lists, dictionaries)
+
+== Suggested Tasks (Choose 3-4)
+
+* Install `postgresql` package
+* Install `postgresql-server` package
+* Initialize the database (command: `postgresql-setup --initdb`)
+* Start the `postgresql` service
+* Enable `postgresql` service on boot
+* Configure firewall to allow port 5432
+* Create a custom configuration file
+
+== Your Starting Point
+
+Open `database.yml` - it has scaffolding to help you start:
+
+[source,yaml]
+----
+# Your challenge: Configure a PostgreSQL database server
+# Requirements:
+#   1. Use variables for package name, service name, and port
+#   2. Create 3-4 tasks (your choice from the list above)
+#   3. Include comments explaining each section
+#   4. Use proper YAML structure (indentation, lists, dictionaries)
+
+---
+# Your YAML starts here
+----
+
+== Success Criteria Checklist
+
+Use this checklist to verify your playbook:
+
+* [ ] Playbook starts with `---`
+* [ ] Play has `name` and `hosts` keys
+* [ ] Variables section with at least 3 variables
+* [ ] Tasks section with 3-4 tasks
+* [ ] Each task has a descriptive name
+* [ ] Proper indentation (consistent spacing)
+* [ ] Comments explaining each section
+* [ ] Playbook runs without errors
+
+== Step-by-Step Approach
+
+1. *Plan*: Which tasks will you include? What variables do you need?
+2. *Write vars section*: Define your variables
+3. *Write tasks one at a time*: Don't try to do it all at once
+4. *Test frequently*: Run `ansible-playbook database.yml` after each task
+5. *Debug errors*: Use Module 6 skills to fix any issues
+6. *Add comments*: Explain what each section does
+7. *Final verification*: Run one last time to confirm success
+
+== Testing Your Playbook
+
+Run it:
+
+[source,bash]
+----
+ansible-playbook database.yml
+----
+
+If you get errors:
+
+* Read the error message carefully
+* Check indentation (count spaces)
+* Verify list syntax (all dashes aligned)
+* Check for tabs (show whitespace in VSCode)
+* Verify quotes around variable references
+
+== Bonus Challenges
+
+Want to push yourself further?
+
+1. *Error practice*: Intentionally break something, then fix it
+2. *Multiple parameters*: Add a task with 3+ module parameters
+3. *Mixed data types*: Use string, number, and boolean variables
+
+== Getting Help
+
+If you're stuck:
+
+* Review previous modules for syntax examples
+* Check the playbook structure in Module 8
+* Remember the pattern: plays → vars/tasks → task → module → parameters
+
+== Solution Available
+
+Once you've attempted it independently, you can check the solution file:
+
+[source,bash]
+----
+cat /home/student/solutions/database-solution.yml
+----
+
+But don't peek until you've tried it yourself!
+
+== What You've Accomplished
+
+By completing this module, you've demonstrated that you can:
+
+* ✅ Structure a complete playbook from scratch
+* ✅ Use variables appropriately
+* ✅ Create and organize multiple tasks
+* ✅ Apply proper YAML syntax (lists, dictionaries, indentation)
+* ✅ Debug and fix your own errors
+* ✅ Document code with meaningful comments
+
+== Congratulations!
+
+You now have the YAML foundation to write Ansible automation. This knowledge applies to any Ansible playbook you'll encounter - from simple configurations to complex multi-tier deployments.
+
+== What's Next?
+
+Now that you understand YAML, you're ready to:
+
+* Explore Ansible roles and collections
+* Learn advanced playbook patterns
+* Dive deeper into Ansible modules
+* Build real infrastructure-as-code automation
+
+*Welcome to the world of Ansible automation!*

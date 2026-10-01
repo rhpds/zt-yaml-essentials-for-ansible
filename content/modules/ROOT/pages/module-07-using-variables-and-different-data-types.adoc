@@ -1,0 +1,149 @@
+= Module 7: Using Variables and Different Data Types
+
+== Learning Objective
+Recognize YAML data types and use variables.
+
+== Introduction
+
+Variables make playbooks reusable. Instead of hard-coding "httpd" everywhere, define it once as a variable and reference it throughout. This also demonstrates YAML's ability to recognize different data types automatically.
+
+== Add a Variables Section
+
+Edit `webserver.yml` to add variables:
+
+[source,yaml]
+----
+---
+- name: Configure web server
+  hosts: localhost
+
+  vars:
+    web_package: httpd
+    web_service: httpd
+    web_port: 80
+    start_on_boot: yes
+    index_content: "Welcome to my web server!"
+
+  tasks:
+    - name: Install web server package
+      ansible.builtin.package:
+        name: "{{ web_package }}"
+
+    - name: Start web server
+      ansible.builtin.service:
+        name: "{{ web_service }}"
+        state: started
+
+    - name: Enable web server on boot
+      ansible.builtin.service:
+        name: "{{ web_service }}"
+        enabled: "{{ start_on_boot }}"
+
+    - name: Create custom home page
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: "{{ index_content }}"
+        owner: apache
+        mode: '0644'
+----
+
+== Understanding Variables
+
+The `vars:` section:
+
+* Is a dictionary (key-value pairs)
+* Goes at the play level (before tasks)
+* Defines variables once, use them many times
+
+Variable references use Jinja2 syntax:
+
+* `"{{ variable_name }}"` - always quote when using this syntax
+* Double curly braces indicate a variable reference
+* Ansible replaces the reference with the value at runtime
+
+== YAML Data Types
+
+YAML automatically recognizes data types:
+
+[cols="2,2,3"]
+|===
+|Value |Type |How YAML interprets it
+
+|`httpd`
+|String
+|Simple text, no quotes needed
+
+|`80`
+|Number (integer)
+|Numeric value
+
+|`yes`
+|Boolean (true)
+|YAML recognizes yes/no, true/false
+
+|`"Welcome!"`
+|Quoted string
+|Force string type, preserve content exactly
+|===
+
+== Run and Verify
+
+Run the playbook:
+
+[source,bash]
+----
+ansible-playbook webserver.yml
+----
+
+Behavior is identical to before - but now it's easier to change. Want to use nginx instead? Change one variable, not every task.
+
+== Type Inference Rules
+
+YAML guesses type based on value:
+
+* No quotes → YAML infers the type
+* `80` → number
+* `yes` → boolean true
+* `httpd` → string
+* Quote when you need to force string type
+
+== When to Quote Variables
+
+Always quote Jinja2 variable references:
+
+[source,yaml]
+----
+# ✅ Correct
+name: "{{ web_package }}"
+
+# ❌ Wrong - YAML parser gets confused
+name: {{ web_package }}
+----
+
+The quotes tell YAML "this whole thing is a string with a variable in it."
+
+== YAML Concepts You've Learned
+
+[cols="1,3"]
+|===
+|Concept |What it means
+
+|Variables
+|Define once, use many times
+
+|`vars:` section
+|Dictionary of variable definitions
+
+|Data types
+|String, number, boolean - YAML infers from value
+
+|Jinja2 syntax
+|`{{ variable }}` for variable references
+
+|Type forcing
+|Use quotes to force string type
+|===
+
+== What's Next?
+
+You've used all the core YAML concepts. Let's see how they fit together in a complete structure view.

@@ -1,0 +1,120 @@
+= Module 5: Adding Comments for Clarity
+
+== Learning Objective
+Document playbooks with comments.
+
+== Introduction
+
+Good YAML is self-documenting, but comments help explain *why* something is done, not just *what* is being done. Comments make playbooks easier to understand and maintain.
+
+== Comment Syntax
+
+In YAML, everything after `#` on a line is ignored:
+
+[source,yaml]
+----
+# This is a full-line comment
+name: httpd  # This is an inline comment
+----
+
+== Add Comments to Your Playbook
+
+Update `webserver.yml` with comments:
+
+[source,yaml]
+----
+# This playbook configures a basic Apache web server on localhost
+# Tested on RHEL 9
+
+---
+- name: Configure web server
+  hosts: localhost
+
+  tasks:
+    # Package installation
+    - name: Install web server package
+      ansible.builtin.package:
+        name: httpd
+
+    # Service management
+    - name: Start web server
+      ansible.builtin.service:
+        name: httpd
+        state: started
+
+    - name: Enable web server on boot
+      ansible.builtin.service:
+        name: httpd
+        enabled: yes
+
+    # Content deployment
+    - name: Create custom home page
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: "Welcome to my web server!"
+        owner: apache
+        mode: '0644'  # Quoted to prevent YAML from interpreting as octal
+----
+
+== Run to Verify
+
+Run the playbook:
+
+[source,bash]
+----
+ansible-playbook webserver.yml
+----
+
+Output is unchanged - comments are ignored by Ansible.
+
+== Best Practices for Comments
+
+=== ✅ Good Comments
+
+* *Header comments*: What the playbook does, requirements, testing status
+* *Section comments*: Group related tasks (`# Package installation`)
+* *Inline comments*: Explain non-obvious syntax (`# Quoted to prevent...`)
+
+=== ❌ Bad Comments
+
+* Stating the obvious: `# This installs httpd`
+* Repeating the task name
+* Outdated information
+
+== When to Use Comments
+
+Use comments to explain:
+
+* *Why* a particular approach was chosen
+* *Workarounds* for known issues
+* *Requirements* or dependencies
+* *Non-obvious* syntax (like quoting mode values)
+
+Don't comment:
+
+* Obvious operations
+* What the code clearly shows
+* Temporary debugging notes (remove those!)
+
+== YAML Concepts You've Learned
+
+[cols="1,3"]
+|===
+|Concept |What it means
+
+|Comment syntax
+|`#` marks start of comment
+
+|Full-line comments
+|Entire line is ignored
+
+|Inline comments
+|Everything after `#` is ignored
+
+|Documentation
+|Comments are for humans, not Ansible
+|===
+
+== What's Next?
+
+You've built a working playbook! But what happens when YAML breaks? Let's learn debugging.

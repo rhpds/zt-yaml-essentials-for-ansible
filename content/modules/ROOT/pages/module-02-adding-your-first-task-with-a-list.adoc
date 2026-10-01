@@ -1,0 +1,80 @@
+= Module 2: Adding Your First Task with a List
+
+== Learning Objective
+Use YAML lists to add tasks to a playbook.
+
+== Introduction
+
+Tasks are the building blocks of Ansible automation. Each task performs one action - installing a package, starting a service, or creating a file. In YAML, tasks are represented as a *list*.
+
+== Understanding YAML Lists
+
+YAML lists use a dash (`-`) followed by a space. Each dash marks one item in the list. The key concept: *all dashes at the same indentation level are part of the same list*.
+
+== Add a Tasks Section
+
+Edit `webserver.yml` to add your first task:
+
+[source,yaml]
+----
+---
+- name: Configure web server
+  hosts: localhost
+
+  tasks:
+    - name: Install web server package
+      ansible.builtin.package:
+        name: httpd
+----
+
+Notice:
+
+* `tasks:` is a new key at the play level
+* The task is a list item (note the dash before `name:`)
+* The task is indented under `tasks:`
+* The module (`ansible.builtin.package`) is indented under the task
+* The parameter (`name: httpd`) is indented under the module
+
+== Run and Observe
+
+Run the updated playbook:
+
+[source,bash]
+----
+ansible-playbook webserver.yml
+----
+
+Watch as Ansible installs the httpd package. You'll see:
+
+* Task name displayed
+* Module being executed
+* "changed" status (httpd was installed)
+
+== YAML Concepts You've Learned
+
+[cols="1,3"]
+|===
+|Concept |What it means
+
+|List syntax
+|Dash + space creates list items
+
+|Nested structure
+|`tasks:` key contains a list value
+
+|Indentation levels
+|Show parent-child relationships
+
+|Task structure
+|Name, module, parameters
+|===
+
+== Common Mistakes to Avoid
+
+* ❌ Forgetting the dash before task name
+* ❌ Wrong indentation (task not aligned under tasks)
+* ❌ Missing space after colon in `tasks:`
+
+== What's Next?
+
+One task is good. Real automation needs multiple tasks in sequence.
