@@ -5,18 +5,24 @@ antora:
   modules:
     - name: index
       label: "Introduction"
-    - name: module-01-why-yaml
-      label: "Module 1: Why YAML? Introduction and advantages"
-    - name: module-02-syntax-basics
-      label: "Module 2: YAML syntax basics"
-    - name: module-03-data-types
-      label: "Module 3: YAML data types"
-    - name: module-04-write-validate-yamllint
-      label: "Module 4: Write and validate YAML with yamllint"
-    - name: module-05-fix-broken-yaml
-      label: "Module 5: Fix broken YAML using yamllint feedback"
-    - name: module-06-validate-run-playbooks
-      label: "Module 6: Validate and run Ansible playbooks"
+    - name: module-01-your-first-playbook
+      label: "Module 1: Your First Playbook"
+    - name: module-02-adding-your-first-task-with-a-list
+      label: "Module 2: Adding Your First Task with a List"
+    - name: module-03-adding-more-tasks-to-the-list
+      label: "Module 3: Adding More Tasks to the List"
+    - name: module-04-configuring-tasks-with-dictionaries
+      label: "Module 4: Configuring Tasks with Dictionaries"
+    - name: module-05-adding-comments-for-clarity
+      label: "Module 5: Adding Comments for Clarity"
+    - name: module-06-breaking-and-fixing-yaml
+      label: "Module 6: Breaking and Fixing YAML"
+    - name: module-07-using-variables-and-different-data-types
+      label: "Module 7: Using Variables and Different Data Types"
+    - name: module-08-understanding-the-complete-structure
+      label: "Module 8: Understanding the Complete Structure"
+    - name: module-09-build-your-own-playbook
+      label: "Module 9: Build Your Own Playbook"
 
 tabs:
   - name: VSCode Editor
