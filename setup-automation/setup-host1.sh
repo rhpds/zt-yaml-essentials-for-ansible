@@ -27,6 +27,18 @@ install -d -o "${LAB_USER}" -g "${LAB_USER}" -m 0755 "${WORKSPACE}"
 # yamllint installation moved to Module 6 as a learning exercise
 # Learners will install and configure yamllint as part of the debugging module
 
+# Pre-configure firewall and SELinux for httpd (used in modules 2-9)
+echo "Configuring firewall for httpd..."
+firewall-cmd --permanent --add-service=http >/dev/null 2>&1 || true
+firewall-cmd --reload >/dev/null 2>&1 || true
+
+echo "Configuring SELinux for httpd..."
+setsebool -P httpd_can_network_connect 1 >/dev/null 2>&1 || true
+
+# Ensure httpd is installed (modules use it for YAML practice)
+echo "Pre-installing httpd..."
+dnf install -y httpd >/dev/null 2>&1 || echo "httpd install skipped"
+
 # Create practice YAML files for specific exercises
 echo "Creating initial practice files for Module 1..."
 

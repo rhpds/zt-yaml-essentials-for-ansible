@@ -1,20 +1,23 @@
 ---
 # VALIDATE — Module 5
-# Standalone playbook mode (no main.yml required).
-# Runs when the learner clicks the "Validate" button.
-# Should check that all module tasks were completed correctly.
-#
-# Use the validation_check module to report pass/fail with messages:
-#   validation_check:
-#     check: "{{ condition }}"
-#     pass_msg: "Task completed successfully"
-#     error_msg: "Task not completed — see instructions above"
+# Checks that comments have been added to webserver.yml
 
 - name: "Module 5 Validation"
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
-    - name: "TODO: Implement validation checks"
-      ansible.builtin.debug:
-        msg: "Replace this task with your validation implementation"
+    - name: Read webserver.yml
+      ansible.builtin.slurp:
+        path: /home/rhel/yaml-practice/webserver.yml
+      register: playbook_content
+
+    - name: Check for YAML comments
+      ansible.builtin.set_fact:
+        has_comments: "{{ (playbook_content.content | b64decode) is search('#') }}"
+
+    - name: Validate comments exist
+      validation_check:
+        check: "{{ has_comments }}"
+        pass_msg: "✓ Comments added to playbook"
+        error_msg: "✗ No comments found in webserver.yml - add comments as shown in the module"
